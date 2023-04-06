@@ -14,8 +14,8 @@ class TS(basetrans):
     def inittranslator(self):
         self.api_key=None 
     def translate(self, query):
-        os.environ['https_proxy']=self.proxy
-        os.environ['http_proxy']=self.proxy
+        os.environ['https_proxy']=self.proxy['https']
+        os.environ['http_proxy']=self.proxy['http']
         self.checkempty(['SECRET_KEY','model'])
         self.contextnum=int(self.config['附带上下文个数'])
         secret_key = self.config['SECRET_KEY'] 

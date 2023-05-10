@@ -8,15 +8,9 @@ bool SAPI_Speak(const wchar_t* Content, int voiceid, int rate, int volume, const
 
 }
 wchar_t** SAPI_List(size_t* num) {
-    auto _list = SAPI::List();
-    auto ret = new wchar_t* [_list.size()];
-    for (int i = 0; i < _list.size(); i++) {
-        ret[i] = new wchar_t[_list[i].size() + 1];  
-        wcscpy(ret[i], _list[i].c_str());
-        ret[i][_list[i].size()] = L'\0';  
-    }
+    auto _list = SAPI::List(); 
     *num = _list.size();
-    return ret;
+    return vecwstr2c(_list);
 }
 
 BOOL SetProcessMute(DWORD Pid, bool mute) {
@@ -27,4 +21,56 @@ BOOL SetProcessMute(DWORD Pid, bool mute) {
 bool GetProcessMute(DWORD Pid) {
 	CAudioMgr AudioMgr;
 	return AudioMgr.GetProcessMute(Pid);
+}
+
+void free_all(void* str) {
+    delete str;
+}
+void freewstringlist(wchar_t** strlist, int num) {
+    for (int i = 0; i < num; i++) {
+        delete strlist[i];
+    }
+    delete strlist;
+}
+void freestringlist(char** strlist, int num) {
+    for (int i = 0; i < num; i++) {
+        delete strlist[i];
+    }
+    delete strlist;
+}
+void freeocrres(ocrres res, int num) {
+    freewstringlist(res.lines,num);
+    delete res.ys;
+}
+ 
+int* vecint2c(std::vector<int>& vs) {
+    int* argv = new int [vs.size() + 1];
+
+    for (size_t i = 0; i < vs.size(); i++) {
+        argv[i] = vs[i]; 
+    }
+    return argv;
+}
+
+char** vecstr2c(std::vector<std::string>& vs) {
+    char** argv = new char* [vs.size() + 1];
+
+    for (size_t i = 0; i < vs.size(); i++) {
+        argv[i] = new char[vs[i].size() + 1];
+        strcpy_s(argv[i], vs[i].size()+1, vs[i].c_str());
+        argv[i][vs[i].size()] = 0;
+    }
+    return argv;
+}
+
+
+wchar_t** vecwstr2c(std::vector<std::wstring>& vs) {
+    wchar_t** argv = new wchar_t* [vs.size() + 1];
+
+    for (size_t i = 0; i < vs.size(); i++) {
+        argv[i] = new wchar_t[vs[i].size() + 1];
+        wcscpy_s(argv[i], vs[i].size()+1, vs[i].c_str());
+        argv[i][vs[i].size()] = 0;
+    }
+    return argv;
 }

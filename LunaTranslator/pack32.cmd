@@ -55,12 +55,12 @@ rmdir /S /Q %targetdir_in%\PyQt5\qt-plugins\iconengines
 del %targetdir_in%\libssl-1_1-x64.dll
 del %targetdir_in%\libcrypto-1_1-x64.dll
 
-del %targetdir%\files\plugins\ocr.dll
 del %targetdir%\files\plugins\LunaEmbedder\Qt5Core.dll
 
 
 del %targetdir%\files\plugins\ocr64.dll
 del %targetdir%\files\plugins\winsharedutils64.dll
+del %targetdir%\files\plugins\libmecab64.dll
 
 copy ..\CXXplugins\fugashi32-py37\fugashi-1.2.1\libmecab.dll %targetdir_in%\
 

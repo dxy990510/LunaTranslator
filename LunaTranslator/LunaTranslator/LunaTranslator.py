@@ -1,7 +1,7 @@
 
 import time
 import re
-import os,threading,Levenshtein,sys 
+import os,threading 
 from traceback import  print_exc   
 import win32utils
 from utils.config import globalconfig ,savehook_new_list,savehook_new_data,noundictconfig,transerrorfixdictconfig,setlanguage ,checkifnewgame,_TR
@@ -39,7 +39,6 @@ import winsharedutils
 from utils.post import POSTSOLVE
 from utils.vnrshareddict import vnrshareddict 
 
-import pyperclip
 from utils.simplekanji import kanjitrans 
 from textsource.hook.host import RPC
  
@@ -181,7 +180,7 @@ class MAINUI(QObject) :
         self.textsource.sqlqueueput((_paste_str,)) 
         
         if globalconfig['outputtopasteboard'] and globalconfig['sourcestatus']['copy']['use']==False:  
-            pyperclip.copy(_paste_str)
+            winsharedutils.clipboard_set(_paste_str)
         
         try:
             hira=self.hira_.fy(_paste_str)

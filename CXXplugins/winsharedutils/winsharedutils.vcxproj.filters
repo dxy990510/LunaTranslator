@@ -41,5 +41,17 @@
     <ClCompile Include="muteprocess.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="winrtocr.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="levenshtein.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="simplemecab.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="pyperclip.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

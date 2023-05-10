@@ -1,22 +1,4 @@
  
-from PyQt5 import QtCore, QtWidgets 
-r"""
-
-Iconic Font
-===========
-
-A lightweight module handling iconic fonts.
-
-It is designed to provide a simple way for creating QIcons from glyphs.
-
-From a user's viewpoint, the main entry point is the ``IconicFont`` class which
-contains methods for loading new iconic fonts with their character map and
-methods returning instances of ``QIcon``.
-
-"""
-
-# Standard library imports 
-import hashlib
 import json
 import os
 import warnings
@@ -228,21 +210,7 @@ class IconicFont(QObject):
             self.load_font(*fargs)
 
     def load_font(self, prefix, ttf_filename, charmap_filename, directory=None):
-        """Loads a font file and the associated charmap.
-
-        If ``directory`` is None, the files will be looked for in ``./fonts/``.
-
-        Parameters
-        ----------
-        prefix: str
-            Prefix string to be used when accessing a given font set
-        ttf_filename: str
-            Ttf font filename
-        charmap_filename: str
-            Charmap filename
-        directory: str or None, optional
-            Directory for font and charmap files
-        """
+         
 
         def hook(obj):
             result = {}
@@ -260,8 +228,7 @@ class IconicFont(QObject):
             return result
 
         if directory is None:
-            directory = os.path.join(
-                os.path.dirname(os.path.realpath(__file__)), 'fonts')
+            directory ='./files/fonts'
 
         # Load font
         if QApplication.instance() is not None:

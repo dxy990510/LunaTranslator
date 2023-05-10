@@ -396,7 +396,6 @@
     "文本处理": "Traitement de texte",
     "预处理方法": "Méthode de prétraitement",
     "游戏全屏": "Jeu plein écran",
-    "系统未安装该语言的OCR模型": "Le modèle OCR de la langue n'est pas installé sur le système",
     "连接进程": "Processus de connexion",
     "设置代码页": "Configurer une page de code",
     "设置刷新延迟": "Définir le délai de rafraîchissement",
@@ -582,5 +581,7 @@
     "请求超时": "Délai de demande dépassé",
     "阿里api": "Ali API",
     "找不到重要组件：": "Aucun composant important trouvé:",
-    "请重新下载并关闭杀毒软件后重试": "Veuillez réessayer après le téléchargement et la fermeture du logiciel antivirus"
+    "请重新下载并关闭杀毒软件后重试": "Veuillez réessayer après le téléchargement et la fermeture du logiciel antivirus",
+    "系统未安装": "Le système n'est pas installé",
+    "的OCR模型": "Le modèle ocr"
 }

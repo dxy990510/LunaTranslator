@@ -396,7 +396,6 @@
     "文本处理": "Xử lý văn bản",
     "预处理方法": "Phương pháp tiền xử lý",
     "游戏全屏": "Game toàn màn hình",
-    "系统未安装该语言的OCR模型": "Hệ thống không cài đặt mô hình OCR cho ngôn ngữ này",
     "连接进程": "Quá trình kết nối",
     "设置代码页": "Thiết lập trang mã",
     "设置刷新延迟": "Đặt độ trễ làm mới",
@@ -582,5 +581,7 @@
     "请求超时": "Thời gian chờ yêu cầu",
     "阿里api": "bởi aliapi",
     "找不到重要组件：": "Không tìm thấy thành phần quan trọng:",
-    "请重新下载并关闭杀毒软件后重试": "Vui lòng tải xuống và thử lại sau khi tắt phần mềm diệt virus"
+    "请重新下载并关闭杀毒软件后重试": "Vui lòng tải xuống và thử lại sau khi tắt phần mềm diệt virus",
+    "系统未安装": "Hệ thống không được cài đặt",
+    "的OCR模型": "Mô hình OCR"
 }

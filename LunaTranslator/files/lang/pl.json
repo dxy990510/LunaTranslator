@@ -396,7 +396,6 @@
     "文本处理": "Przetwarzanie tekstu",
     "预处理方法": "Metoda wstępnego przetwarzania",
     "游戏全屏": "Gra na pełnym ekranie",
-    "系统未安装该语言的OCR模型": "Model OCR dla tego języka nie jest zainstalowany w systemie",
     "连接进程": "Proces połączenia",
     "设置代码页": "Ustaw stronę kodu",
     "设置刷新延迟": "Ustaw opóźnienie odświeżania",
@@ -582,5 +581,7 @@
     "请求超时": "limit czasu żądania",
     "阿里api": "API Alibaba",
     "找不到重要组件：": "Nie znaleziono ważnego komponentu:",
-    "请重新下载并关闭杀毒软件后重试": "Pobierz i zamknij oprogramowanie antywirusowe ponownie i spróbuj ponownie"
+    "请重新下载并关闭杀毒软件后重试": "Pobierz i zamknij oprogramowanie antywirusowe ponownie i spróbuj ponownie",
+    "系统未安装": "System nie zainstalowany",
+    "的OCR模型": "Model OCR dla"
 }

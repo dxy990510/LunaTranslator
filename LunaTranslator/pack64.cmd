@@ -56,6 +56,7 @@ del %targetdir_in%\libcrypto-1_1-x64.dll
 
 del %targetdir%\files\plugins\ocr32.dll
 del %targetdir%\files\plugins\winsharedutils32.dll
+del %targetdir%\files\plugins\libmecab32.dll
 
 xcopy ..\dependence\api-ms-win_64 %targetdir_in% /e /y /I
  

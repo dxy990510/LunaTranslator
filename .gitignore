@@ -42,3 +42,9 @@ CXXplugins/exec/Release
 CXXplugins/shareddllproxy/out
 CXXplugins/shareddllproxy/builds
 CXXplugins/shareddllproxy/.vs
+
+
+CXXplugins/winrtocr/x64
+CXXplugins/winrtocr/Release
+CXXplugins/winrtocr/.vs
+LunaTranslator/files/plugins/GPS.txt

@@ -1,4 +1,4 @@
-from ctypes import c_uint,c_bool,POINTER,c_int,c_uint64,c_wchar_p,pointer,CDLL
+from ctypes import c_uint,c_bool,POINTER,c_int,c_uint64,c_wchar_p,pointer,CDLL,Structure
 import platform,os
 
 if platform.architecture()[0]=='64bit':
@@ -37,3 +37,22 @@ def SAPI_List():
 def SAPI_Speak(content,voiceid,  rate,  volume,  Filename):
      
     return _SAPI_Speak(content,voiceid,  int(rate),  int(volume),  Filename)
+
+
+
+check_language_valid=utilsdll.check_language_valid
+check_language_valid.argtypes=c_wchar_p,
+check_language_valid.restype=c_bool
+
+getlanguagelist=utilsdll.getlanguagelist
+getlanguagelist.argtypes=POINTER(c_uint),
+getlanguagelist.restype=POINTER(c_wchar_p)
+
+class ocrres(Structure):
+    _fields_=[
+        ('lines',POINTER(c_wchar_p)),
+        ('ys',POINTER(c_uint))
+    ]
+OCR_f=utilsdll.OCR
+OCR_f.argtypes=c_wchar_p,c_wchar_p,c_wchar_p, POINTER(c_uint)
+OCR_f.restype=ocrres

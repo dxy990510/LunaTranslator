@@ -22,12 +22,21 @@ private:
     HRESULT                 m_hRes;
     IAudioSessionManager2* m_lpAudioSessionMgr;
 };
+struct ocrres {
+    wchar_t** lines;
+    int* ys;
 
+};
 extern "C" {
 
     __declspec(dllexport) bool SAPI_Speak(const wchar_t* Content, int voiceid, int rate, int volume, const wchar_t* Filename);
     __declspec(dllexport) wchar_t** SAPI_List(size_t*);
     __declspec(dllexport) BOOL SetProcessMute(DWORD Pid, bool mute);
     __declspec(dllexport) bool GetProcessMute(DWORD Pid);
+    
+    __declspec(dllexport) ocrres OCR(wchar_t* fname, wchar_t* lang, wchar_t*, int*);
+    __declspec(dllexport) bool check_language_valid(wchar_t*);
+    __declspec(dllexport) wchar_t** getlanguagelist(int*);
+
 
 }

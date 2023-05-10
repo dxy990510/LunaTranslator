@@ -396,7 +396,6 @@
     "文本处理": "text processing ",
     "预处理方法": "Pretreatment method",
     "游戏全屏": "Full screen game",
-    "系统未安装该语言的OCR模型": "The OCR model of this language is not installed in the system",
     "连接进程": "Connection process",
     "设置代码页": "Set Code Page",
     "设置刷新延迟": "Set refresh delay",
@@ -582,5 +581,7 @@
     "请求超时": "request timeout",
     "阿里api": "Alibaba API",
     "找不到重要组件：": "Important component not found:",
-    "请重新下载并关闭杀毒软件后重试": "Please download and close the antivirus software again and try again"
+    "请重新下载并关闭杀毒软件后重试": "Please download and close the antivirus software again and try again",
+    "系统未安装": "System not installed",
+    "的OCR模型": "OCR model for"
 }

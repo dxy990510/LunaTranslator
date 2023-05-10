@@ -396,7 +396,6 @@
     "文本处理": "metin işleme",
     "预处理方法": "Özellik yöntemi",
     "游戏全屏": "Tam ekran oyunu",
-    "系统未安装该语言的OCR模型": "Bu dilin OCR modeli sistemde kurulmadı.",
     "连接进程": "Bağlantı süreci",
     "设置代码页": "Kod sayfasını ayarla",
     "设置刷新延迟": "Yeniden yenileme gecikmesini ayarlayın",
@@ -582,5 +581,7 @@
     "请求超时": "isteme zamanı aşımı",
     "阿里api": "Alibaba API",
     "找不到重要组件：": "Önemli komponent bulunamadı:",
-    "请重新下载并关闭杀毒软件后重试": "Lütfen antivirüs yazılımını tekrar indirin ve tekrar deneyin"
+    "请重新下载并关闭杀毒软件后重试": "Lütfen antivirüs yazılımını tekrar indirin ve tekrar deneyin",
+    "系统未安装": "Sistem kurulmadı",
+    "的OCR模型": "OCR modeli için"
 }

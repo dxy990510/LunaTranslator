@@ -33,7 +33,6 @@ CXXplugins/winsharedutils/.vs
 LunaTranslator/files/plugins/Magpie_v0.9.1/cache
 *.vsidx
 *.lock
-*.db
 *.opendb
 *.suo
 *.ipch

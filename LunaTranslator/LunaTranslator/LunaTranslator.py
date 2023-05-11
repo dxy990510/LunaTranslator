@@ -318,17 +318,17 @@ class MAINUI(QObject) :
     def starthira(self,use=None,checked=True): 
         if checked:
             hirasettingbase=globalconfig['hirasetting']
-            if hirasettingbase['local']['use']:
-                from hiraparse.localhira import hira 
-            elif hirasettingbase['mecab']['use']:
-                from hiraparse.mecab import hira 
-                
-            elif hirasettingbase['mojinlt']['use']:
-                from hiraparse.mojinlt import hira 
+            for name in hirasettingbase:
+                if hirasettingbase[name]['use']:
+                    if os.path.exists('./LunaTranslator/hiraparse/'+name+'.py')==False:
+                        continue
+                    _hira=importlib.import_module('hiraparse.'+name).hira
+                    break
              
             try:
-                self.hira_=hira()  
+                self.hira_=_hira()  
             except:
+                print_exc()
                 self.hira_=None
         else:
             self.hira_=None

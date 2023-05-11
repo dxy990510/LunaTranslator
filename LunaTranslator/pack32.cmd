@@ -12,6 +12,7 @@ xcopy .\LunaTranslator\postprocess %targetdir_in%\postprocess /e /y /I
 xcopy .\LunaTranslator\translator %targetdir_in%\translator /e /y /I
 xcopy .\LunaTranslator\cishu %targetdir_in%\cishu /e /y /I
 xcopy .\LunaTranslator\tts %targetdir_in%\tts /e /y /I
+xcopy .\LunaTranslator\hiraparse %targetdir_in%\hiraparse /e /y /I
 
 xcopy /E /I %pythonpackage%\bcrypt %targetdir_in%\bcrypt
 xcopy /E /I %pythonpackage%\certifi %targetdir_in%\certifi
@@ -22,7 +23,6 @@ xcopy /E /I %pythonpackage%\idna %targetdir_in%\idna
 xcopy /E /I ..\dependence\dependence_common\openai %targetdir_in%\openai
 
 xcopy /E /I %pythonpackage%\OpenSSL %targetdir_in%\OpenSSL
-xcopy /E /I %pythonpackage%\pykakasi %targetdir_in%\pykakasi
 xcopy /I %pythonpackage%\pytz %targetdir_in%\pytz
 del %targetdir_in%\pytz\zoneinfo
 mkdir %targetdir_in%\pytz\zoneinfo

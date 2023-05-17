@@ -21,10 +21,10 @@ endif()
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY $<1:${CMAKE_FINAL_OUTPUT_DIRECTORY}>)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY $<1:${CMAKE_FINAL_OUTPUT_DIRECTORY}>)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY $<1:${CMAKE_FINAL_OUTPUT_DIRECTORY}>)
-
-
-
-add_executable(shareddllproxy shareddllproxy.cpp dllinject.cpp)
+ 
+include_directories(Detours-4.0.1/include)
+find_library(DETOURS_LIB detours PATHS ${CMAKE_SOURCE_DIR}/Detours-4.0.1)
+add_executable(shareddllproxy shareddllproxy.cpp dllinject.cpp LR.cpp)
 if(${CMAKE_SIZEOF_VOID_P} EQUAL 8)
 	add_library(magpie magpie.cpp)
 	target_link_libraries(shareddllproxy magpie)
@@ -32,7 +32,7 @@ if(${CMAKE_SIZEOF_VOID_P} EQUAL 8)
 else()
 	add_subdirectory(voiceroid2)
 	add_library(x86lib dreye.cpp jbj7.cpp kingsoft.cpp le.cpp neospeech.cpp)
-	target_link_libraries(shareddllproxy x86lib voiceroid2)
+	target_link_libraries(shareddllproxy x86lib voiceroid2   ${DETOURS_LIB})
 	set_target_properties(shareddllproxy PROPERTIES OUTPUT_NAME "shareddllproxy32")
 endif()
 

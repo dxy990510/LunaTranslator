@@ -5,11 +5,14 @@ from traceback import print_exc
 import codecs,hashlib
 import os,win32con,time 
 from traceback import print_exc
-from utils.config import globalconfig 
+from utils.config import globalconfig,static_data
 import win32utils
 from utils.exceptions import TimeOut
 from urllib.request import getproxies_registry
-
+kanjichs2ja=str.maketrans(static_data['kanjichs2ja'])
+def kanjitrans(k): 
+    return k.translate(kanjichs2ja) 
+ 
 def getsysproxy():
     proxies=getproxies_registry()
     try:
@@ -168,17 +171,6 @@ def checkencoding(code):
     except LookupError:
         return False
 
-def copybackup(file):
-    i=0
-    while True:
-        target=file+('.backup' if i==0 else '.backup.'+str(i))
-        if os.path.exists(target)==False: 
-            break
-        i+=1
-    with open(file,'rb') as ff:
-            bs=ff.read()
-    with open(target,'wb') as ff:
-            ff.write(bs)
 def getfilemd5(file,default='0'):
     try:
         with open(file,'rb') as ff:

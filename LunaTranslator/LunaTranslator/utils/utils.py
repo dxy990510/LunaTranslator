@@ -5,10 +5,41 @@ from traceback import print_exc
 import codecs,hashlib
 import os,win32con,time 
 from traceback import print_exc
-from utils.config import globalconfig,static_data
-import win32utils
+from utils.config import globalconfig,static_data,savehook_new_list,savehook_new_data,getdefaultsavehook
+import win32utils,threading,queue
 from utils.exceptions import TimeOut
 from urllib.request import getproxies_registry
+import importlib
+taskqueue=queue.Queue()
+
+def trygetpicthread():
+    while True:
+        gamepath=taskqueue.get()
+        title=savehook_new_data[gamepath]['title']
+        p=gamepath.split('\\')
+
+        for t in [title,p[-1][:-4],p[-2]]: 
+            try:
+                t.encode('ascii')
+                if len(t)<8:
+                    continue
+            except:  pass
+            methods=static_data['searchimgmethods']
+            for method in methods:
+                searchimgmethod=importlib.import_module('unstablemethod.'+method).searchimgmethod  
+                savepath= searchimgmethod(t)
+                if savepath and gamepath in savehook_new_data:
+                        savehook_new_data[gamepath]['imagepath']=savepath
+                        break
+            
+threading.Thread(target=trygetpicthread).start()
+def checkifnewgame(gamepath):
+    if gamepath not in savehook_new_list:
+            savehook_new_list.append(gamepath) 
+    if gamepath not in savehook_new_data:
+            savehook_new_data[gamepath]=getdefaultsavehook(gamepath)
+    if savehook_new_data[gamepath]['imagepath'] is None or os.path.exists(savehook_new_data[gamepath]['imagepath'])==False:
+        taskqueue.put(gamepath)
 kanjichs2ja=str.maketrans(static_data['kanjichs2ja'])
 def kanjitrans(k): 
     return k.translate(kanjichs2ja) 
@@ -198,7 +229,7 @@ def minmaxmoveobservefunc(self):
                         rect=win32utils.GetWindowRect( hwnd) 
                         if globalconfig['focusfollow']:
                                 focus=win32utils.GetForegroundWindow()
-                                _focusp=win32utils.GetWindowThreadProcessId(focus)[1]
+                                _focusp=win32utils.GetWindowThreadProcessId(focus)
                                 if _focusp in self.object.textsource.pids: 
                                         self.hookfollowsignal.emit(3,(hwnd,))
                                 elif _focusp ==os.getpid():
@@ -224,18 +255,7 @@ def minmaxmoveobservefunc(self):
                         pass
                   
                 time.sleep(0.1)
-
-def update():
-    with open('./cache/update/update.bat','w',encoding='utf8') as ff:
-                
-                ff.write(r''' 
-timeout 1
-xcopy .\cache\update\LunaTranslator .\ /s /e /c /y /h /r 
-exit
-                
-                ''') 
-    win32utils.ShellExecute(None, "open", 'cache\\update\\update.bat', "", os.path.dirname('.'), win32con.SW_HIDE)
-
+ 
 
 def makehtml(text,base=False,show=None):
     if base:

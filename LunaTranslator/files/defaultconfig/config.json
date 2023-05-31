@@ -728,24 +728,24 @@
         "deepl_dev": {
             "use": false,
             "color": "blue",
-            "free":true,
-            "name": "deepl_dev"
+            "type":"dev",
+            "name": "deepl"
         },"bing_dev": {
             "use": false,
             "color": "blue",
-            "free":true,
-            "name": "bing_dev"
+            "type":"dev",
+            "name": "必应"
         },"tx_dev": {
             "use": false,
             "color": "blue",
-            "free":true,
-            "name": "tx_dev"
+            "type":"dev",
+            "name": "tx"
         } ,
         "baidu_dev": {
             "use": false,
             "color": "blue",
-            "free":true,
-            "name": "baidu_dev"
+            "type":"dev",
+            "name": "百度"
         }, 
         "jb7": {
             "use": false,

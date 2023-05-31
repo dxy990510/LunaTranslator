@@ -13,8 +13,6 @@ import json
 from translator.basetranslator import basetrans
 import time
 import time,hashlib
-def b64string(a): 
-    return hashlib.md5(a.encode('utf8')).digest().hex()
 
 _id=1
 async def SendRequest(websocket,method,params):
@@ -50,10 +48,12 @@ async def tranlate(websocketurl,content,src,tgt ):
 
         #document.getElementById('tta_input_ta')
         return (res)
-async def start(websocketurl  ): 
+
+
+async def createtarget(websocketurl  ): 
     async with websockets.connect(websocketurl) as websocket: 
-        await SendRequest(websocket,'Page.navigate',{'url':f'https://www.bing.com/translator/'})
-        await waitload(websocket) 
+        a=await SendRequest(websocket,'Target.createTarget',{'url':f'https://www.bing.com/translator/'})  
+        return a['targetId']
 class TS(basetrans):
     # def end(self):
     #     try:
@@ -61,36 +61,17 @@ class TS(basetrans):
     #     except:
     #         pass 
     def inittranslator(self ) : 
-                 
+    
         self.path=None 
         self.websocketurl=None
-        self.checkpath()
-    def checkpath(self):
-        if self.websocketurl is None:
-            port =self.config['port']
-            try:
-                info=requests.get(f'http://127.0.0.1:{port}/json/list').json()
-                websocketurl=info[0]['webSocketDebuggerUrl']
-                self.websocketurl=websocketurl
-            except:
-                print_exc()
-                _path=self.config['chrome路径']
-                if _path=="":
-                    return False
-                if os.path.exists(_path)==False:
-                    return False
-                if  _path!=self.path :
-                    self.path=_path 
-                    
-                    call="\"%s\" --proxy-server=direct:// --disable-extensions --disable-gpu --no-first-run  --remote-debugging-port=%d  --user-data-dir=\"%s\"" %( self.path ,port,os.path.abspath('./chrome_cache/bing_'+b64string(_path))) 
-                    print(call)
-                    self.engine=subproc_w(call) 
-                    info=requests.get(f'http://127.0.0.1:{port}/json/list').json()
-                    websocketurl=info[0]['webSocketDebuggerUrl']
-                    print(websocketurl)
-                    self.websocketurl=websocketurl
-            return(asyncio.run(start(self.websocketurl )))
-    def translate(self,content): 
-        self.checkpath()  
+        
+        
+        port =globalconfig['debugport']
+        info=requests.get(f'http://127.0.0.1:{port}/json/list').json()
+        print(info)
+        websocketurl=info[0]['webSocketDebuggerUrl'] 
+        self.websocketurl=websocketurl[:websocketurl.rfind('/')]+'/'+asyncio.run(createtarget(websocketurl ))
+         
+    def translate(self,content):  
         return(asyncio.run(tranlate(self.websocketurl,content,self.srclang,self.tgtlang)))
         

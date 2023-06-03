@@ -116,10 +116,9 @@ def callmagpie10( hwnd):
     downscalingEffect=magpie10_config.get('downscalingEffect',{"name":"","parameters":{}})
     MagOptions.contents.downscalingEffect.name=downscalingEffect['name']
 
-    parameters=downscalingEffect['parameters']
+    parameters=downscalingEffect.get('parameters',{})
     paramnum=len(parameters)
 
-    MagOptions.contents.downscalingEffect.name=magpie10_config['downscalingEffect']['name']
     MagOptions.contents.downscalingEffect.paramnum=paramnum
     for i in range(paramnum):
         key=list(parameters.keys())[i]

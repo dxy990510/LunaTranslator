@@ -414,9 +414,14 @@ class QUnFrameWindow(resizableframeless):
     
     def _fullsgame(self): 
         if self.object.textsource and  self.object.textsource.hwnd:
-            self.isletgamefullscreened=not self.isletgamefullscreened
-            self.refreshtoolicon()
-            self.fullscreenmanager(self.object.textsource.hwnd,self.isletgamefullscreened) 
+            _hwnd=self.object.textsource.hwnd
+        else:
+            _hwnd=win32utils.GetForegroundWindow()
+            _pid=win32utils.GetWindowThreadProcessId(_hwnd) 
+            if _pid ==os.getpid():return 
+        self.isletgamefullscreened=not self.isletgamefullscreened
+        self.refreshtoolicon()
+        self.fullscreenmanager(_hwnd,self.isletgamefullscreened) 
      
     def changemousetransparentstate(self): 
         self.mousetransparent= not self.mousetransparent

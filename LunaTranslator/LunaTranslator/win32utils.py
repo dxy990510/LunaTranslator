@@ -106,11 +106,13 @@ _SetWindowLongW=_user32.SetWindowLongW
 _SetWindowLongW.argtypes=c_int,c_int,c_int
 
 _GetDC=_user32.GetDC
+_GetDC.restype=c_void_p
+_ReleaseDC=_user32.ReleaseDC
+_ReleaseDC.argtypes=c_void_p,c_void_p
 
 _GetCursorPos=_user32.GetCursorPos
 _GetCursorPos.argtypes=POINTER(POINT),
 
-_GetSystemMetrics=_user32.GetSystemMetrics
 
 _GetDeviceCaps=_gdi32.GetDeviceCaps
 _GetDeviceCaps.argtypes=c_int,c_int
@@ -287,8 +289,6 @@ def SetWindowLong(hwnd,nIndex,value):
     return _SetWindowLongW(hwnd,nIndex,value)
 def GetDC(hwnd):
     return _GetDC(hwnd)
-def GetSystemMetrics(nIndex):
-    return _GetSystemMetrics(nIndex)
 def GetCursorPos():
     _p=POINT()
     _GetCursorPos(pointer(_p))

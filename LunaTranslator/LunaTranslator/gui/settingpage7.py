@@ -7,7 +7,7 @@ from PyQt5.QtGui import QStandardItem, QStandardItemModel
 from traceback import print_exc
 from myutils.config import globalconfig ,postprocessconfig,noundictconfig,transerrorfixdictconfig,_TR,_TRL,defaultglobalconfig 
 import functools 
-
+from gui.usefulwidget import getcolorbutton,getsimpleswitch
 from gui.codeacceptdialog import codeacceptdialog  
 from gui.inputdialog import getsomepath1   
 from myutils.utils import selectdebugfile
@@ -15,8 +15,8 @@ from myutils.wrapper import Singleton
 from myutils.post import POSTSOLVE
 def settab7direct(self):
     self.comparelayout=getcomparelayout(self)
-    self.button_noundict=self.getcolorbutton(globalconfig,'' ,callback=lambda x:  noundictconfigdialog(self,noundictconfig,'专有名词翻译设置(游戏ID 0表示全局)'),icon='fa.gear',constcolor="#FF69B4")
-    self.button_fix=self.getcolorbutton(globalconfig,'',callback=lambda x:  noundictconfigdialog1(self,transerrorfixdictconfig,'翻译结果替换设置',['翻译','替换'],'./userconfig/transerrorfixdictconfig.json'),icon='fa.gear',constcolor="#FF69B4")
+    self.button_noundict=getcolorbutton(globalconfig,'' ,callback=lambda x:  noundictconfigdialog(self,noundictconfig,'专有名词翻译设置(游戏ID 0表示全局)'),icon='fa.gear',constcolor="#FF69B4")
+    self.button_fix=getcolorbutton(globalconfig,'',callback=lambda x:  noundictconfigdialog1(self,transerrorfixdictconfig,'翻译结果替换设置',['翻译','替换'],'./userconfig/transerrorfixdictconfig.json'),icon='fa.gear',constcolor="#FF69B4")
 def setTab7(self) :  
         self.tabadd_lazy(self.tab_widget, ('文本处理'), lambda :setTab7_lazy(self)) 
 def getcomparelayout(self):
@@ -24,7 +24,7 @@ def getcomparelayout(self):
     layout=QHBoxLayout()
     fromtext=QTextEdit()
     totext=QTextEdit()
-    solvebutton=self.getcolorbutton(globalconfig,'',callback=lambda :totext.setPlainText(POSTSOLVE(fromtext.toPlainText())),icon='fa.chevron-right',constcolor="#FF69B4")
+    solvebutton=getcolorbutton(globalconfig,'',callback=lambda :totext.setPlainText(POSTSOLVE(fromtext.toPlainText())),icon='fa.chevron-right',constcolor="#FF69B4")
     
     layout.addWidget(fromtext)
     layout.addWidget(solvebutton) 
@@ -71,23 +71,23 @@ def setTab7_lazy(self) :
             savelist[ii+1],savelist[toexchangei+1]=savelist[toexchangei+1],savelist[ii+1] 
         for i,post in enumerate(sortlist): 
             if post=='_11':
-                config=(self.getcolorbutton(globalconfig,'',callback=lambda:selectdebugfile('./userconfig/mypost.py' ),icon='fa.gear',constcolor="#FF69B4")) 
+                config=(getcolorbutton(globalconfig,'',callback=lambda:selectdebugfile('./userconfig/mypost.py' ),icon='fa.gear',constcolor="#FF69B4")) 
             else:
                 if post not in postprocessconfig:
                     continue
                 if post=='_remove_chaos':
-                    config=(self.getcolorbutton(globalconfig,'',icon='fa.gear',constcolor="#FF69B4",callback=lambda:codeacceptdialog(self))) 
+                    config=(getcolorbutton(globalconfig,'',icon='fa.gear',constcolor="#FF69B4",callback=lambda:codeacceptdialog(self))) 
                 elif 'args' in postprocessconfig[post]:
                     
-                    config=(self.getcolorbutton(globalconfig,'',callback= functools.partial( postconfigdialog,self,postprocessconfig[post]['args'],postprocessconfig[post]['name']),icon='fa.gear',constcolor="#FF69B4")) 
+                    config=(getcolorbutton(globalconfig,'',callback= functools.partial( postconfigdialog,self,postprocessconfig[post]['args'],postprocessconfig[post]['name']),icon='fa.gear',constcolor="#FF69B4")) 
                 else:
                     config=('')
              
-            button_up=(self.getcolorbutton(globalconfig,'',callback= functools.partial(changerank, post,True),icon='fa.arrow-up',constcolor="#FF69B4"))
-            button_down=(self.getcolorbutton(globalconfig,'',callback= functools.partial(changerank, post,False),icon='fa.arrow-down',constcolor="#FF69B4")) 
+            button_up=(getcolorbutton(globalconfig,'',callback= functools.partial(changerank, post,True),icon='fa.arrow-up',constcolor="#FF69B4"))
+            button_down=(getcolorbutton(globalconfig,'',callback= functools.partial(changerank, post,False),icon='fa.arrow-down',constcolor="#FF69B4")) 
              
             l=[((postprocessconfig[post]['name'] ),6),
-                self.getsimpleswitch(postprocessconfig[post],'use'),
+                getsimpleswitch(postprocessconfig[post],'use'),
                 config,
                 button_up,
                 button_down
@@ -97,14 +97,14 @@ def setTab7_lazy(self) :
     
         grids2=[ 
             [(('使用专有名词翻译' ),6),
-                self.getsimpleswitch(noundictconfig,'use'),
+                getsimpleswitch(noundictconfig,'use'),
                 self.button_noundict],
             [(('使用翻译结果修正' ),6),
-                self.getsimpleswitch(transerrorfixdictconfig,'use'),
+                getsimpleswitch(transerrorfixdictconfig,'use'),
                 self.button_fix],
             [(('使用VNR共享辞书' ),6),
-                self.getsimpleswitch(globalconfig['gongxiangcishu'],'use',callback = self.object.loadvnrshareddict ),
-                self.getcolorbutton(globalconfig,'',callback=lambda x:  getsomepath1(self,'共享辞书',globalconfig['gongxiangcishu'],'path','共享辞书',self.object.loadvnrshareddict,False,'*.xml') ,icon='fa.gear',constcolor="#FF69B4"),'','','','','',''],
+                getsimpleswitch(globalconfig['gongxiangcishu'],'use',callback = self.object.loadvnrshareddict ),
+                getcolorbutton(globalconfig,'',callback=lambda x:  getsomepath1(self,'共享辞书',globalconfig['gongxiangcishu'],'path','共享辞书',self.object.loadvnrshareddict,False,'*.xml') ,icon='fa.gear',constcolor="#FF69B4"),'','','','','',''],
             
         ]   
          

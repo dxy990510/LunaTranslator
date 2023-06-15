@@ -4,7 +4,7 @@ from PyQt5.QtCore import Qt,QSize
 from PyQt5.QtGui import QColor 
 import qtawesome
 from myutils.config import globalconfig ,_TR,_TRL
-from gui.usefulwidget import MySwitch 
+from gui.usefulwidget import MySwitch ,selectcolor
 from myutils.utils import makehtml
 from myutils.wrapper import Singleton
 @Singleton
@@ -107,12 +107,6 @@ def getsomepath1(object,title,d,k,label,callback=None,isdir=False,filter1="*.db"
                                 {'t':'okcancel','callback':callback},
                                 ])
 
-def ChangeTranslateColor(self,button,item) :
-        color = QColorDialog.getColor(QColor(globalconfig['cixingcolor'][item]), self, item)
-        
-    
-        button.setIcon(qtawesome.icon("fa.paint-brush", color=color.name()))
-        globalconfig['cixingcolor'][item]=color.name() 
 
 @Singleton
 class multicolorset(QDialog):
@@ -152,7 +146,7 @@ class multicolorset(QDialog):
             p.setIconSize(QSize(20*parent.rate,20*parent.rate))
             
             p.setStyleSheet("background: transparent;")
-            p.clicked.connect(functools.partial(ChangeTranslateColor,self,p,k))
+            p.clicked.connect(functools.partial(selectcolor,self,globalconfig['cixingcolor'],k,p))
             hori.addWidget(b)
             hori.addWidget(p)
             

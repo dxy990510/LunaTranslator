@@ -19,7 +19,7 @@ from myutils.config import globalconfig,saveallconfig,_TR
 from myutils.subproc import endsubprocs
 import  win32con
 import gui.rangeselect  
-from myutils.hwnd import mouseselectwindow ,showintab
+from myutils.hwnd import mouseselectwindow ,showintab,getScreenRate
 from gui.dialog_savedgame import dialog_savedgame,dialog_savedgame_new
 from gui.dialog_memory import dialog_memory
 from gui.textbrowser import Textbrowser
@@ -326,7 +326,7 @@ class QUnFrameWindow(resizableframeless):
         self.lastrefreshtime=time.time()
         self.autohidestart=False
         threading.Thread(target=self.autohidedelaythread).start()
-        self.rate = self.object.screen_scale_rate  
+        self.rate = getScreenRate()
         self.muteprocessignal.connect(self.muteprocessfuntion) 
         self.toolbarhidedelaysignal.connect(self.toolbarhidedelay)
         

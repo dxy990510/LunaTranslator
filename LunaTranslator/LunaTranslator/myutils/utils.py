@@ -93,42 +93,7 @@ def checkifnewgame(gamepath):
 kanjichs2ja=str.maketrans(static_data['kanjichs2ja'])
 def kanjitrans(k): 
     return k.translate(kanjichs2ja) 
-def startgame(game,settingui):
-    try:         
-        if os.path.exists(game):
-            mode=savehook_new_data[game]['onloadautochangemode']
-            if mode==0:
-                    pass
-            else:
-                    _={
-                    1:'texthook',
-                    2:'embedded',
-                    3:'copy',
-                    4:'ocr'
-                    } 
-                    if globalconfig['sourcestatus'][_[mode]]['use']==False:
-                            globalconfig['sourcestatus'][_[mode]]['use']=True
-                            
-                            settingui.yuitsu_switch('sourcestatus','sourceswitchs',_[mode],None ,True) 
-                            settingui.object.starttextsource(use=_[mode],checked=True)
-     
-            if savehook_new_data[game]['leuse'] :
-                    localeswitcher=savehook_new_data[game]['localeswitcher'] 
-                    b=win32utils.GetBinaryType(game) 
-                    if b==6 and localeswitcher==0:
-                            localeswitcher=1
-                    if (localeswitcher==2 and b==6):
-                            _exe='shareddllproxy64'
-                    else:
-                            _exe='shareddllproxy32'
-                    exe=(os.path.abspath('./files/plugins/'+_exe)) 
-                    _cmd={0:'le',1:"LR",2:"ntleas"}[localeswitcher] 
-                    win32utils.CreateProcess(None,'"{}" {} "{}"'.format(exe,_cmd,game), None,None,False,0,None, os.path.dirname(game), win32utils.STARTUPINFO()  ) 
-                                    
-            else:
-                    win32utils.ShellExecute(None, "open", game, "", os.path.dirname(game), win32con.SW_SHOW) 
-    except:
-            print_exc()
+
 def getsysproxy():
     proxies=getproxies_registry()
     try:

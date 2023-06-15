@@ -7,6 +7,7 @@ from PyQt5.QtGui import QKeySequence
 from PyQt5.QtCore import pyqtSignal
 from PyQt5.QtWidgets import QComboBox,QKeySequenceEdit,QLabel
 import winsharedutils 
+from gui.usefulwidget import getsimpleswitch
 def setTab_quick_direct(self):
     self.hotkeymanager=SystemHotkey()
     self.referlabels={}
@@ -71,7 +72,7 @@ class CustomKeySequenceEdit(QKeySequenceEdit):
 def setTab_quick_lazy(self) : 
          
         grids=[
-            [(("是否使用快捷键"),4),self.getsimpleswitch(globalconfig['quick_setting']  ,'use',callback=functools.partial(__enable,self )  ),((''),8)]
+            [(("是否使用快捷键"),4),getsimpleswitch(globalconfig['quick_setting']  ,'use',callback=functools.partial(__enable,self )  ),((''),8)]
         ]
         for name in globalconfig['quick_setting']['all']: 
                 if name not in self.bindfunctions:
@@ -81,7 +82,7 @@ def setTab_quick_lazy(self) :
                  
                 grids.append(
                     [((globalconfig['quick_setting']['all'][name]['name']),4),
-                    self.getsimpleswitch(globalconfig['quick_setting']['all'][name] ,'use',callback=functools.partial(fanyiselect,self,name)),
+                    getsimpleswitch(globalconfig['quick_setting']['all'][name] ,'use',callback=functools.partial(fanyiselect,self,name)),
                     (key1,2),
                     (self.referlabels[name],4)
                     ]

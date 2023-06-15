@@ -111,10 +111,15 @@ def getExeIcon( name,icon=True ):
                     return QIcon(pixmap)
             else:
                     return pixmap
+__rate=0
 def getScreenRate() :
-    hDC = win32utils.GetDC(0) 
-    screen_scale_rate = round(win32utils.GetDeviceCaps(hDC, win32con.DESKTOPHORZRES) /  win32utils.GetSystemMetrics(0), 2) 
-    return screen_scale_rate
+    global __rate
+    if __rate==0:
+        hDC = win32utils.GetDC(0) 
+        dpiX = win32utils.GetDeviceCaps(hDC, win32con.LOGPIXELSX) /96.0;
+        win32utils._ReleaseDC(None, hDC); 
+        __rate = round(dpiX, 2)  
+    return __rate
 
 
 def mouseselectwindow(callback): 

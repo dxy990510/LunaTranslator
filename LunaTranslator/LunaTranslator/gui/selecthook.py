@@ -11,7 +11,7 @@ import winsharedutils
 import os,time 
 from myutils.config import globalconfig ,_TR,_TRL
 from collections import OrderedDict
-from gui.usefulwidget import closeashidewindow,getQMessageBox,dialog_showinfo
+from gui.usefulwidget import closeashidewindow,getQMessageBox,dialog_showinfo,getsimplecombobox,getsimpleswitch
 from myutils.utils import checkchaos ,checkifnewgame
 from gui.dialog_savedgame import dialog_setting_game
 class searchhookparam(QDialog):
@@ -105,7 +105,7 @@ class searchhookparam(QDialog):
         self.codepagesave={'type2use':savehook_new_data[parent.object.textsource.pname]['codepage_index'],
                             'type3use':savehook_new_data[parent.object.textsource.pname]['codepage_index']}
         
-        self.layoutseatchtext.addRow(_TR("代码页"), parent.object.settin_ui.getsimplecombobox(_TRL(static_data['codepage_display']),self.codepagesave,'type2use' ))
+        self.layoutseatchtext.addRow(_TR("代码页"), getsimplecombobox(_TRL(static_data['codepage_display']),self.codepagesave,'type2use' ))
         
 
         w2=QWidget()
@@ -121,7 +121,7 @@ class searchhookparam(QDialog):
         hex_str = binascii.hexlify(byte_data).decode() 
         space_hex_str = ' '.join([hex_str[i:i+2] for i in range(0, len(hex_str), 2)])
  
-        self.layoutsettings.addRow(_TR("代码页"), parent.object.settin_ui.getsimplecombobox(_TRL(static_data['codepage_display']),self.codepagesave,'type3use' ))
+        self.layoutsettings.addRow(_TR("代码页"), getsimplecombobox(_TRL(static_data['codepage_display']),self.codepagesave,'type3use' ))
         self.regists=[]
         for edits in [
                 ('搜索匹配的特征(hex)',space_hex_str),
@@ -212,9 +212,7 @@ class hookselect(closeashidewindow):
         selectionitem=QStandardItem()
         self.ttCombomodelmodel.insertRow(rown,[selectionitem,QStandardItem('%s %s %s:%s' %(ss[-1],ss[-2],ss[-3],ss[-4])),QStandardItem()])  
                     
-                #self.hctable.setIndexWidget(self.hcmodel.index(row, 0),self.object.getcolorbutton('','',self.clicked2,icon='fa.times',constcolor="#FF69B4")) 
-        
-        self.selectionbutton.append(self._settingui.getsimpleswitch({1:False},1,callback=functools.partial(self.accept,ss))) 
+        self.selectionbutton.append(getsimpleswitch({1:False},1,callback=functools.partial(self.accept,ss))) 
         if select:self.selectionbutton[-1].click()
         self.tttable.setIndexWidget(self.ttCombomodelmodel.index(rown,0),self.selectionbutton[-1])
  

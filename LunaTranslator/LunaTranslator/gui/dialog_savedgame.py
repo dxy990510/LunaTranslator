@@ -11,7 +11,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import   QApplication, QLayout, QLabel, QSizePolicy, QWidget, QGridLayout,QHBoxLayout,QVBoxLayout 
 from PyQt5.QtGui import QPalette, QColor,QResizeEvent,QIcon,QPixmap
 from PyQt5.QtCore import Qt 
-
+from gui.usefulwidget import getsimplecombobox,getspinbox,getcolorbutton,getsimpleswitch
 from PyQt5.QtCore import QPoint, QRect, QSize, Qt,pyqtSignal
 import os   
 from PyQt5.QtGui import QStandardItem, QStandardItemModel   
@@ -21,8 +21,8 @@ from myutils.hwnd import getExeIcon
 from myutils.config import _TR,_TRL,globalconfig,static_data 
 import winsharedutils
 from myutils.wrapper import Singleton_close,Singleton,threader
-from myutils.utils import checkifnewgame,startgame
-
+from myutils.utils import checkifnewgame 
+from gui.usefulwidget import yuitsu_switch
 class ItemWidget(QWidget):
   focuschanged=pyqtSignal(bool,str)
   doubleclicked=pyqtSignal(str)
@@ -275,7 +275,7 @@ class dialog_setting_game(QDialog):
                         _icon=getExeIcon(res)
                         if self.item:
                                 self.item.savetext=res   
-                                self.table.setIndexWidget(self.model.index(self.model.indexFromItem(self.item).row(), 1),self.object.getcolorbutton('','',functools.partial( opendir,res),qicon=_icon ))
+                                self.table.setIndexWidget(self.model.index(self.model.indexFromItem(self.item).row(), 1),getcolorbutton('','',functools.partial( opendir,res),qicon=_icon ))
                         if self.gametitleitme:
                               if savehook_new_data[res]['imagepath'] is None:
                                       self.gametitleitme.setimg(getExeIcon(res,False))
@@ -327,17 +327,17 @@ class dialog_setting_game(QDialog):
                                                 imgpath.setText(res)
                                                 gametitleitme.setimg(_pixmap)
                                         
-                        lujingimg.addWidget(self.object.getcolorbutton('','',selectimg,icon='fa.gear',constcolor="#FF69B4"))
+                        lujingimg.addWidget(getcolorbutton('','',selectimg,icon='fa.gear',constcolor="#FF69B4"))
 
                         formLayout.addLayout(lujingimg)
 
                         statislayout=QHBoxLayout() 
                         statislayout.addWidget(QLabel(_TR("统计信息")))
-                        statislayout.addWidget(self.object.getcolorbutton('','',lambda:dialog_statistic(self,exepath),icon='fa.bar-chart',constcolor="#FF69B4"))
+                        statislayout.addWidget(getcolorbutton('','',lambda:dialog_statistic(self,exepath),icon='fa.bar-chart',constcolor="#FF69B4"))
                         
                         if savehook_new_data[exepath]['infopath']: 
                                 statislayout.addWidget(QLabel(_TR("游戏信息")))
-                                statislayout.addWidget(self.object.getcolorbutton('','',lambda:browserdialog(self,exepath),icon='fa.book',constcolor="#FF69B4"))
+                                statislayout.addWidget(getcolorbutton('','',lambda:browserdialog(self,exepath),icon='fa.book',constcolor="#FF69B4"))
                         
                         formLayout.addLayout(statislayout)
                 lujing=QHBoxLayout()
@@ -350,7 +350,7 @@ class dialog_setting_game(QDialog):
                 
                 lujing.addWidget(QLabel(_TR("修改路径")))
                 lujing.addWidget(editpath)
-                lujing.addWidget(self.object.getcolorbutton('','',functools.partial(self.selectexe),icon='fa.gear',constcolor="#FF69B4"))
+                lujing.addWidget(getcolorbutton('','',functools.partial(self.selectexe),icon='fa.gear',constcolor="#FF69B4"))
                 self.lujing=editpath
                 self.setWindowTitle(savehook_new_data[exepath]['title'])
                 self.resize(QSize(600,200))
@@ -363,7 +363,7 @@ class dialog_setting_game(QDialog):
                 if type==2:
                         zhuanqulayout=QHBoxLayout() 
                         zhuanqulayout.addWidget(QLabel(_TR("转区启动")))
-                        zhuanqulayout.addWidget(self.object.getsimpleswitch(savehook_new_data[exepath],'leuse'))
+                        zhuanqulayout.addWidget(getsimpleswitch(savehook_new_data[exepath],'leuse'))
                         formLayout.addLayout(zhuanqulayout)
 
 
@@ -376,25 +376,25 @@ class dialog_setting_game(QDialog):
                 if b==6 and savehook_new_data[exepath]['localeswitcher']==0:
                         savehook_new_data[exepath]['localeswitcher']=2
                 
-                lrelay.addWidget(self.object.getsimplecombobox(_TRL(_methods),savehook_new_data[exepath],'localeswitcher'))
+                lrelay.addWidget(getsimplecombobox(_TRL(_methods),savehook_new_data[exepath],'localeswitcher'))
                 formLayout.addLayout(lrelay) 
 
 
                 autochangestatus=QHBoxLayout()
                 autochangestatus.addWidget(QLabel(_TR("自动切换到模式"))) 
-                autochangestatus.addWidget(self.object.getsimplecombobox(_TRL(['不切换','HOOK','HOOK_内嵌','剪贴板','OCR']),savehook_new_data[exepath],'onloadautochangemode'))
+                autochangestatus.addWidget(getsimplecombobox(_TRL(['不切换','HOOK','HOOK_内嵌','剪贴板','OCR']),savehook_new_data[exepath],'onloadautochangemode'))
                 formLayout.addLayout(autochangestatus)
                  
 
 
                 cp_layout=QHBoxLayout()
                 cp_layout.addWidget(QLabel(_TR('代码页')))
-                cp_layout.addWidget(self.object.getsimplecombobox(_TRL(static_data['codepage_display']),savehook_new_data[exepath],'codepage_index' ,lambda x: self.object.object.textsource.setcodepage()))
+                cp_layout.addWidget(getsimplecombobox(_TRL(static_data['codepage_display']),savehook_new_data[exepath],'codepage_index' ,lambda x: self.object.object.textsource.setcodepage()))
                 formLayout.addLayout(cp_layout)
 
                 cp_layout=QHBoxLayout()
                 cp_layout.addWidget(QLabel(_TR('移除非选定hook')))
-                cp_layout.addWidget(self.object.getsimpleswitch(savehook_new_data[exepath],'removeuseless'))
+                cp_layout.addWidget(getsimpleswitch(savehook_new_data[exepath],'removeuseless'))
                 formLayout.addLayout(cp_layout)
                 
 
@@ -420,7 +420,7 @@ class dialog_setting_game(QDialog):
                 
                 cp_layout=QHBoxLayout()
                 cp_layout.addWidget(QLabel(_TR('插入特殊码延迟(ms)')))
-                cp_layout.addWidget(self.object.getspinbox(0,1000000,savehook_new_data[exepath],'inserthooktimeout' ))
+                cp_layout.addWidget(getspinbox(0,1000000,savehook_new_data[exepath],'inserthooktimeout' ))
                 formLayout.addLayout(cp_layout)
 
                 self.show()
@@ -435,7 +435,7 @@ class dialog_setting_game(QDialog):
                  
                 self.hcmodel.insertRow(row,[QStandardItem( ),QStandardItem(k)])  
                     
-                self.hctable.setIndexWidget(self.hcmodel.index(row, 0),self.object.getcolorbutton('','',self.clicked2,icon='fa.times',constcolor="#FF69B4")) 
+                self.hctable.setIndexWidget(self.hcmodel.index(row, 0),getcolorbutton('','',self.clicked2,icon='fa.times',constcolor="#FF69B4")) 
 class dialog_statistic(QDialog):
         def formattime(self,t):
                 t=int(t)
@@ -476,7 +476,42 @@ class dialog_statistic(QDialog):
                 self.show()
                 threading.Thread(target=self.refresh).start()
                 
-
+def startgame(game,settingui):
+    try:         
+        if os.path.exists(game):
+            mode=savehook_new_data[game]['onloadautochangemode']
+            if mode==0:
+                    pass
+            else:
+                    _={
+                    1:'texthook',
+                    2:'embedded',
+                    3:'copy',
+                    4:'ocr'
+                    } 
+                    if globalconfig['sourcestatus'][_[mode]]['use']==False:
+                            globalconfig['sourcestatus'][_[mode]]['use']=True
+                            
+                            yuitsu_switch(settingui,globalconfig['sourcestatus'],'sourceswitchs',_[mode],None ,True) 
+                            settingui.object.starttextsource(use=_[mode],checked=True)
+     
+            if savehook_new_data[game]['leuse'] :
+                    localeswitcher=savehook_new_data[game]['localeswitcher'] 
+                    b=win32utils.GetBinaryType(game) 
+                    if b==6 and localeswitcher==0:
+                            localeswitcher=1
+                    if (localeswitcher==2 and b==6):
+                            _exe='shareddllproxy64'
+                    else:
+                            _exe='shareddllproxy32'
+                    exe=(os.path.abspath('./files/plugins/'+_exe)) 
+                    _cmd={0:'le',1:"LR",2:"ntleas"}[localeswitcher] 
+                    win32utils.CreateProcess(None,'"{}" {} "{}"'.format(exe,_cmd,game), None,None,False,0,None, os.path.dirname(game), win32utils.STARTUPINFO()  ) 
+                                    
+            else:
+                    win32utils.ShellExecute(None, "open", game, "", os.path.dirname(game), win32con.SW_SHOW) 
+    except:
+            print_exc()
 
 @Singleton_close
 class dialog_savedgame_new(QDialog):  
@@ -643,11 +678,10 @@ class dialog_savedgame(QDialog):
                 k=k.replace('/','\\')
                 checkifnewgame(k)
                 self.model.insertRow(row,[QStandardItem( ),QStandardItem( ),keyitem,QStandardItem( (savehook_new_data[k]['title'] ) )])  
-                self.table.setIndexWidget(self.model.index(row, 0),self.object.getsimpleswitch(savehook_new_data[k],'leuse'))
-                self.table.setIndexWidget(self.model.index(row, 1),self.object.getcolorbutton('','',functools.partial( opendir,k),qicon=getExeIcon(k) ))
+                self.table.setIndexWidget(self.model.index(row, 0),getsimpleswitch(savehook_new_data[k],'leuse'))
+                self.table.setIndexWidget(self.model.index(row, 1),getcolorbutton('','',functools.partial( opendir,k),qicon=getExeIcon(k) ))
                 
-                # self.table.setIndexWidget(self.model.index(row, 2),self.object.getcolorbutton('','',functools.partial(self.selectexe,keyitem),icon='fa.gear',constcolor="#FF69B4")) 
-                self.table.setIndexWidget(self.model.index(row, 2),self.object.getcolorbutton('','',functools.partial(self.showsettingdialog,k,keyitem ),icon='fa.gear',constcolor="#FF69B4")) 
+                self.table.setIndexWidget(self.model.index(row, 2),getcolorbutton('','',functools.partial(self.showsettingdialog,k,keyitem ),icon='fa.gear',constcolor="#FF69B4")) 
         def __init__(self, object ) -> None:
                 # if dialog_savedgame._sigleton :
                 #         return

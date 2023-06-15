@@ -34,9 +34,7 @@ if __name__ == "__main__" :
     from myutils.config import _TR,static_data
     from gui.usefulwidget import getQMessageBox
     from LunaTranslator import MAINUI
-    from myutils.hwnd import  getScreenRate  
 
-    screenrate=getScreenRate()   
     QCoreApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)
     app = QApplication(sys.argv)
     app.setQuitOnLastWindowClosed(False) 
@@ -59,7 +57,6 @@ if __name__ == "__main__" :
     
  
     main = MAINUI(app) 
-    main.screen_scale_rate =screenrate
     main.checklang() 
     main.aa() 
     app.exit(app.exec_())

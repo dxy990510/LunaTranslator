@@ -4,6 +4,7 @@ from PyQt5.QtWidgets import   QComboBox
 from gui.inputdialog import getsomepath1
 from myutils.config import globalconfig ,_TRL
 import os,functools
+from gui.usefulwidget import getsimplecombobox,getspinbox,getcolorbutton,yuitsu_switch,getsimpleswitch
 def setTab5_direct(self) :  
     self.voicecombo=QComboBox( ) 
     self.voicelistsignal.connect(functools.partial(showvoicelist,self ))
@@ -28,11 +29,11 @@ def getttsgrid(self) :
             
             line+=[
                  ((globalconfig['reader'][name]['name']),6),
-                 self.getsimpleswitch(globalconfig['reader'][name],'use',name=name,callback=functools.partial(self.yuitsu_switch,'reader','readerswitchs',name,self.object.startreader),pair='readerswitchs'), 
+                 getsimpleswitch(globalconfig['reader'][name],'use',name=name,parent=self,callback=functools.partial(yuitsu_switch,self,globalconfig['reader'],'readerswitchs',name,self.object.startreader),pair='readerswitchs'), 
                  
                  ] 
             if 'path' in globalconfig['reader'][name]:
-                 line+=[self.getcolorbutton(globalconfig,'',callback=functools.partial(getsomepath1,self,globalconfig['reader'][name]['name'],globalconfig['reader'][name] ,'path',globalconfig['reader'][name]['name'],self.object.startreader,True),icon='fa.gear',constcolor="#FF69B4")]
+                 line+=[getcolorbutton(globalconfig,'',callback=functools.partial(getsomepath1,self,globalconfig['reader'][name]['name'],globalconfig['reader'][name] ,'path',globalconfig['reader'][name]['name'],self.object.startreader,True),icon='fa.gear',constcolor="#FF69B4")]
             else:
                  line+=['']
             if i%3==2  :
@@ -52,11 +53,11 @@ def setTab5lz(self) :
         grids+=[ 
                 [''],
                 [("选择声音",5),(self.voicecombo,15)],
-                [('语速:(-10~10)',5),(self.getspinbox(-10,10,globalconfig['ttscommon'],'rate'  ),2)],
-                [('音量:(0~100)',5),(self.getspinbox(0,100,globalconfig['ttscommon'],'volume' ),2)],
-                [ ('自动朗读',5),(self.getsimpleswitch(globalconfig,'autoread' ),1)],
-                [ ('朗读原文',5),(self.getsimpleswitch(globalconfig,'read_raw' ),1),'',('朗读翻译',5),(self.getsimpleswitch(globalconfig,'read_trans' ),1)],
-                [('朗读的翻译',5),(self.getsimplecombobox(_TRL([globalconfig['fanyi'][x]['name'] for x in globalconfig['fanyi']]),globalconfig,'read_translator'),15) ],
+                [('语速:(-10~10)',5),(getspinbox(-10,10,globalconfig['ttscommon'],'rate'  ),2)],
+                [('音量:(0~100)',5),(getspinbox(0,100,globalconfig['ttscommon'],'volume' ),2)],
+                [ ('自动朗读',5),(getsimpleswitch(globalconfig,'autoread' ),1)],
+                [ ('朗读原文',5),(getsimpleswitch(globalconfig,'read_raw' ),1),'',('朗读翻译',5),(getsimpleswitch(globalconfig,'read_trans' ),1)],
+                [('朗读的翻译',5),(getsimplecombobox(_TRL([globalconfig['fanyi'][x]['name'] for x in globalconfig['fanyi']]),globalconfig,'read_translator'),15) ],
         ]  
         gridlayoutwidget=self.makegrid(grids )  
         gridlayoutwidget=self.makescroll( gridlayoutwidget  )

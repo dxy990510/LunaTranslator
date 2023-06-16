@@ -633,10 +633,15 @@ def GetNativeSystemInfo():
     _GetNativeSystemInfo(pointer(_SYSTEM_INFO))
     return _SYSTEM_INFO
 
-def Is64bit(hprocess):
+def Is64bit(pid):
     sysinfo=GetNativeSystemInfo()
     if(sysinfo.wProcessorArchitecture==9 or sysinfo.wProcessorArchitecture==6):
-        return not IsWow64Process(hprocess)
+        import win32con
+        hprocess=OpenProcess(win32con.PROCESS_QUERY_INFORMATION,False,pid)
+        if hprocess==0:return False
+        res=not IsWow64Process(hprocess)
+        CloseHandle(hprocess)
+        return res
     else:
         return False
 
@@ -644,3 +649,8 @@ _MessageBoxW =_user32.MessageBoxW
 _MessageBoxW.argtypes=c_void_p,c_wchar_p,c_wchar_p,c_uint
 def MessageBox(hwnd,text,title,_type):
     return _MessageBoxW(hwnd,text,title,_type)
+
+_CancelIo=_kernel32.CancelIo
+_CancelIo.argtypes=c_void_p,
+def CancelIo(hfile):
+    return _CancelIo(hfile)

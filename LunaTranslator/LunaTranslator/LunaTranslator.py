@@ -31,7 +31,6 @@ import winsharedutils
 from myutils.post import POSTSOLVE
 from myutils.vnrshareddict import vnrshareddict 
 
-from textsource.hook.host import RPC
  
 class MAINUI() : 
     def __init__(self,app) -> None:
@@ -49,7 +48,6 @@ class MAINUI() :
         self.refresh_on_get_trans_signature=0
         self.currentsignature=None
         self.isrunning=True
-        self.RPC=RPC() 
     @property
     def textsource(self):return self.textsource_p
     @textsource.setter
@@ -304,9 +302,9 @@ class MAINUI() :
         pids,pexe,hwnd=(  selectedp)   
         checkifnewgame(pexe) 
         if globalconfig['sourcestatus']['texthook']['use']:
-            self.textsource=texthook(self.RPC,self.textgetmethod,self.hookselectdialog,pids,hwnd,pexe)  
+            self.textsource=texthook(self.textgetmethod,pids,hwnd,pexe)  
         elif globalconfig['sourcestatus']['embedded']['use']:
-            self.textsource=embedded(self.textgetmethod,self.hookselectdialog,pids,hwnd,pexe, self)  
+            self.textsource=embedded(self.textgetmethod,pids,hwnd,pexe)  
          
     #@threader
     def starttextsource(self,use=None,checked=True):   
@@ -438,9 +436,9 @@ class MAINUI() :
                                         self.textsource=None
                                         if globalconfig['sourcestatus']['texthook']['use']:
                                             needinserthookcode=savehook_new_data[name_]['needinserthookcode']
-                                            self.textsource=texthook(self.RPC,self.textgetmethod,self.hookselectdialog,pids,hwnd,name_ ,autostarthookcode=savehook_new_data[name_]['hook'],needinserthookcode=needinserthookcode)
+                                            self.textsource=texthook(self.textgetmethod,pids,hwnd,name_ ,autostarthookcode=savehook_new_data[name_]['hook'],needinserthookcode=needinserthookcode)
                                         elif globalconfig['sourcestatus']['embedded']['use']:
-                                            self.textsource=embedded(self.textgetmethod,self.hookselectdialog,pids,hwnd,name_  ,self)
+                                            self.textsource=embedded(self.textgetmethod,pids,hwnd,name_ )
                                         break
                 
                 else: 

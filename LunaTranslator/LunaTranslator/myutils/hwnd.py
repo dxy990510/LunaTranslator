@@ -37,23 +37,20 @@ def grabwindow():
         
         hwnd=win32utils.FindWindow('Window_Magpie_967EB565-6F73-4E94-AE53-00CC42592A22',None) 
         if hwnd: 
-                try:
+                @threader
+                def _():
                         winrtutils._winrt_capture_window(fname+'_winrt_magpie.png',hwnd)
-                except:
-                        pass
-                
+                _()
         hwnd= win32utils.GetForegroundWindow()  
         try:
                 if hwnd==int(gobject.baseobject.translation_ui.winId()):
                         hwnd=gobject.baseobject.textsource.hwnd
         except:
-                print_exc()
                 pass
-
-        try:
+        @threader
+        def _():
                 winrtutils._winrt_capture_window(fname+'_winrt.png',hwnd)
-        except: 
-                pass
+        _()
         p=QApplication.primaryScreen().grabWindow(hwnd)
         
         if(not p.toImage().allGray()):
@@ -88,12 +85,6 @@ def getprocesslist():
         return pids
  
 
-def is64bit(pid):
-        hprocess=win32utils.OpenProcess(win32con.PROCESS_QUERY_INFORMATION,False,pid)
-        if hprocess==0:return False
-        res=win32utils.Is64bit(hprocess)
-        win32utils.CloseHandle(hprocess)
-        return res
 
 def getpidexe(pid):
         hwnd1=win32utils.OpenProcess(win32con.PROCESS_ALL_ACCESS,False, (pid))

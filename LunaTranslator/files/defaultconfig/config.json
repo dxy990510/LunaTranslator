@@ -180,7 +180,7 @@
                 "icon":"fa.times"
             },
             "move": {
-                "use": true,
+                "use": false,
                 "tip": "移动",
                 "icon":"fa.hand-paper-o"
             },
@@ -191,7 +191,7 @@
                 "icon2":"fa.expand"
             },
             "grabwindow": {
-                "use": true,
+                "use": false,
                 "tip": "前景窗口截屏",
                 "icon":"fa.camera"
             },
@@ -228,7 +228,7 @@
                 "icon":"fa.rotate-left"
             },
             "gamepad": {
-                "use": true,
+                "use": false,
                 "tip": "打开保存的游戏",
                 "icon":"fa.gamepad"
             },

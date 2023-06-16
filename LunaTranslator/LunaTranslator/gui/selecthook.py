@@ -9,6 +9,7 @@ from PyQt5.QtCore import Qt,pyqtSignal,QSize,QModelIndex,QPoint
 import qtawesome
 import winsharedutils
 import os,time 
+import gobject
 from myutils.config import globalconfig ,_TR,_TRL
 from collections import OrderedDict
 from gui.usefulwidget import closeashidewindow,getQMessageBox,dialog_showinfo,getsimplecombobox,getsimpleswitch
@@ -22,7 +23,7 @@ class searchhookparam(QDialog):
             return default
     def searchstart(self):
         idx=(self.selectmodel.checkedId())
-        usestruct=self.parent().object.textsource.defaultsp()
+        usestruct=gobject.baseobject.textsource.defaultsp()
         if idx==1:  #0默认
             #usestruct.codepage=self.codepage.value()
             usestruct.codepage=static_data["codepage_real"][self.codepagesave['type2use']]
@@ -55,7 +56,7 @@ class searchhookparam(QDialog):
             usestruct.codepage=static_data["codepage_real"][self.codepagesave['type3use']]#dumpvalues[6]
             usestruct.searchTime=dumpvalues[6]#dumpvalues[7]
             usestruct.maxRecords=dumpvalues[7]#dumpvalues[8]
-        self.parent().object.textsource.findhook(usestruct)
+        gobject.baseobject.textsource.findhook(usestruct)
         if idx!=1:
             self.parent().findhookchecked()
         self.close()
@@ -91,7 +92,7 @@ class searchhookparam(QDialog):
  
         mainlayout.addLayout(layout)
 
-        usestruct=parent.object.textsource.defaultsp()
+        usestruct=gobject.baseobject.textsource.defaultsp()
         w1=QWidget() 
         self.layoutseatchtext=QFormLayout()
         w1.setLayout(self.layoutseatchtext)
@@ -102,8 +103,8 @@ class searchhookparam(QDialog):
         # self.codepage.setValue(usestruct.codepage)
         self.layoutseatchtext.addRow(_TR("文本"), self.searchtext)
 
-        self.codepagesave={'type2use':savehook_new_data[parent.object.textsource.pname]['codepage_index'],
-                            'type3use':savehook_new_data[parent.object.textsource.pname]['codepage_index']}
+        self.codepagesave={'type2use':savehook_new_data[gobject.baseobject.textsource.pname]['codepage_index'],
+                            'type3use':savehook_new_data[gobject.baseobject.textsource.pname]['codepage_index']}
         
         self.layoutseatchtext.addRow(_TR("代码页"), getsimplecombobox(_TRL(static_data['codepage_display']),self.codepagesave,'type2use' ))
         
@@ -161,10 +162,8 @@ class hookselect(closeashidewindow):
     removehooksignal=pyqtSignal(tuple)
     getfoundhooksignal=pyqtSignal(dict)
     update_item_new_line=pyqtSignal(tuple,str)  
-    def __init__(self,object,p):
-        super(hookselect, self).__init__(p)
-        self.object=object
-        self._settingui=p
+    def __init__(self,parent):
+        super(hookselect, self).__init__(parent)  
         self.setupUi( )
         
         self.changeprocessclearsignal.connect(self.changeprocessclear)
@@ -351,16 +350,16 @@ class hookselect(closeashidewindow):
         if action==remove:
             pid=hook[0]
             addr=hook[1]
-            self.object.textsource.removehook(pid,addr)
+            gobject.baseobject.textsource.removehook(pid,addr)
          
         elif action==copy :
             winsharedutils.clipboard_set(hook[-1])
              
     def opensolvetext(self):
-        self._settingui.opensolvetextsig.emit()
+        gobject.baseobject.settin_ui.opensolvetextsig.emit()
     def opengamesetting(self):
         try:
-            dialog_setting_game(self,self.object.textsource.pname, settingui=self._settingui) 
+            dialog_setting_game(self,gobject.baseobject.textsource.pname) 
         except:
             print_exc()
     def gethide(self,res ):
@@ -403,11 +402,11 @@ class hookselect(closeashidewindow):
  
         #self.ttCombomodelmodel.blockSignals(True)
         try:
-            for index,key in enumerate(self.object.textsource.hookdatacollecter):   
+            for index,key in enumerate(gobject.baseobject.textsource.hookdatacollecter):   
                 ishide=True  
-                for i in range(min(len(self.object.textsource.hookdatacollecter[key]),20)):
+                for i in range(min(len(gobject.baseobject.textsource.hookdatacollecter[key]),20)):
                     
-                    if searchtext  in self.object.textsource.hookdatacollecter[key][-i]:
+                    if searchtext  in gobject.baseobject.textsource.hookdatacollecter[key][-i]:
                         ishide=False
                         break
                 self.tttable.setRowHidden(index,ishide) 
@@ -421,9 +420,9 @@ class hookselect(closeashidewindow):
         if len(hookcode)==0:
             return 
         
-        if  self.object.textsource:
+        if  gobject.baseobject.textsource:
             print(hookcode)
-            self.object.textsource.inserthook(hookcode)
+            gobject.baseobject.textsource.inserthook(hookcode)
             
         else:
             self.getnewsentence(_TR('！未选定进程！'))
@@ -436,12 +435,12 @@ class hookselect(closeashidewindow):
         self.checkfilt_notascii.setHidden(hide)
         self.checkfilt_notshiftjis.setHidden(hide) 
     def findhook(self): 
-        if self.object.textsource is None:return 
+        if gobject.baseobject.textsource is None:return 
         if globalconfig['sourcestatus']['texthook']['use']==False:
             return 
         getQMessageBox(self,"警告","该功能可能会导致游戏崩溃！",True,True,lambda:searchhookparam(self))
     def findhookchecked(self):  
-            if  self.object.textsource:  
+            if  gobject.baseobject.textsource:  
                 self.userhookfind.setEnabled(False)
                 self.userhookfind.setText(_TR("正在搜索特殊码，请让游戏显示更多文本"))
                 self.allres.clear()
@@ -473,35 +472,34 @@ class hookselect(closeashidewindow):
     def accept(self,key,select):
         try: 
             
-            self.object.textsource.lock.acquire()
+            gobject.baseobject.textsource.lock.acquire()
 
 
-            checkifnewgame(self.object.textsource.pname)
-            if key in self.object.textsource.selectedhook:
-                self.object.textsource.selectedhook.remove(key)
+            checkifnewgame(gobject.baseobject.textsource.pname)
+            if key in gobject.baseobject.textsource.selectedhook:
+                gobject.baseobject.textsource.selectedhook.remove(key)
 
             if select :
-                self.object.textsource.selectedhook.append(key)
+                gobject.baseobject.textsource.selectedhook.append(key)
 
                 print(key)
                 if(key[-2][:8]=='UserHook'): 
-                    needinserthookcode= savehook_new_data[self.object.textsource.pname]['needinserthookcode']  
+                    needinserthookcode= savehook_new_data[gobject.baseobject.textsource.pname]['needinserthookcode']  
                     needinserthookcode=list(set(needinserthookcode+[key[-1]]))
                     
-                    savehook_new_data[self.object.textsource.pname].update({  'needinserthookcode':needinserthookcode } )
+                    savehook_new_data[gobject.baseobject.textsource.pname].update({  'needinserthookcode':needinserthookcode } )
             else:
                 pass
              
-            savehook_new_data[self.object.textsource.pname].update({ 'hook':self.object.textsource.selectedhook } )
-            self.object.textsource.lock.release()
+            savehook_new_data[gobject.baseobject.textsource.pname].update({ 'hook':gobject.baseobject.textsource.selectedhook } )
+            gobject.baseobject.textsource.lock.release()
         except:
-            print_exc()
-        #self.object.settin_ui.show()
+            print_exc() 
     def showEvent(self,e):   
-        self.object.AttachProcessDialog.realshowhide.emit(False)
+        gobject.baseobject.AttachProcessDialog.realshowhide.emit(False)
         try:  
             for i in range(len(self.save)):  
-                if self.save[i] in self.object.textsource.selectedhook: 
+                if self.save[i] in gobject.baseobject.textsource.selectedhook: 
                     self.tttable.setCurrentIndex(self.ttCombomodelmodel.index(i,0)) 
                     break
         except:
@@ -544,10 +542,10 @@ class hookselect(closeashidewindow):
         self.tabwidget.setCurrentIndex(0)   
         self.at1=1 
         try:
-            print(self.object.textsource)
-            self.object.textsource.selectinghook=self.save[index.row()]
+            print(gobject.baseobject.textsource)
+            gobject.baseobject.textsource.selectinghook=self.save[index.row()]
             
-            self.textOutput. setPlainText('\n'.join(self.object.textsource.hookdatacollecter[self.save[index.row()]]))
+            self.textOutput. setPlainText('\n'.join(gobject.baseobject.textsource.hookdatacollecter[self.save[index.row()]]))
             self.textOutput. moveCursor(QTextCursor.End)
 
         except:

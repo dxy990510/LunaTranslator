@@ -1,6 +1,6 @@
  
 from PyQt5.QtWidgets import QPushButton  ,QWidget,QVBoxLayout,QLabel
-import functools 
+import functools ,gobject
 from myutils.config import globalconfig ,translatorsetting 
  
 from myutils.subproc import subproc_w
@@ -52,7 +52,7 @@ def initsome11(self,l,label=None):
         else:
             last=''
         line+=[(globalconfig['fanyi'][fanyi]['name'],6),
-        getsimpleswitch(globalconfig['fanyi'][fanyi],'use',callback=functools.partial( self.object.prepare ,fanyi)),
+        getsimpleswitch(globalconfig['fanyi'][fanyi],'use',callback=functools.partial( gobject.baseobject.prepare ,fanyi)),
         getcolorbutton(globalconfig['fanyi'][fanyi],'color',parent=self,name="fanyicolor_"+fanyi,callback=functools.partial(selectcolor,self,globalconfig['fanyi'][fanyi],'color',None,self,"fanyicolor_"+fanyi)),last ] 
  
         if i%3==0  :

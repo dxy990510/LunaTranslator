@@ -4,6 +4,7 @@ from PyQt5.QtWidgets import   QComboBox
 from gui.inputdialog import getsomepath1
 from myutils.config import globalconfig ,_TRL
 import os,functools
+import gobject
 from gui.usefulwidget import getsimplecombobox,getspinbox,getcolorbutton,yuitsu_switch,getsimpleswitch
 def setTab5_direct(self) :  
     self.voicecombo=QComboBox( ) 
@@ -29,11 +30,11 @@ def getttsgrid(self) :
             
             line+=[
                  ((globalconfig['reader'][name]['name']),6),
-                 getsimpleswitch(globalconfig['reader'][name],'use',name=name,parent=self,callback=functools.partial(yuitsu_switch,self,globalconfig['reader'],'readerswitchs',name,self.object.startreader),pair='readerswitchs'), 
+                 getsimpleswitch(globalconfig['reader'][name],'use',name=name,parent=self,callback=functools.partial(yuitsu_switch,self,globalconfig['reader'],'readerswitchs',name,gobject.baseobject.startreader),pair='readerswitchs'), 
                  
                  ] 
             if 'path' in globalconfig['reader'][name]:
-                 line+=[getcolorbutton(globalconfig,'',callback=functools.partial(getsomepath1,self,globalconfig['reader'][name]['name'],globalconfig['reader'][name] ,'path',globalconfig['reader'][name]['name'],self.object.startreader,True),icon='fa.gear',constcolor="#FF69B4")]
+                 line+=[getcolorbutton(globalconfig,'',callback=functools.partial(getsomepath1,self,globalconfig['reader'][name]['name'],globalconfig['reader'][name] ,'path',globalconfig['reader'][name]['name'],gobject.baseobject.startreader,True),icon='fa.gear',constcolor="#FF69B4")]
             else:
                  line+=['']
             if i%3==2  :
@@ -65,7 +66,7 @@ def setTab5lz(self) :
  
 def changevoice(self,text):
 
-    globalconfig['reader'][self.object.reader_usevoice]['voice']=self.object.reader.voicelist[self.voicecombo.currentIndex()]
+    globalconfig['reader'][gobject.baseobject.reader_usevoice]['voice']=gobject.baseobject.reader.voicelist[self.voicecombo.currentIndex()]
 def showvoicelist(self,vl,idx):
     self.voicecombo.blockSignals(True)
     self.voicecombo.clear()

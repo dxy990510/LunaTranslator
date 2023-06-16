@@ -275,7 +275,7 @@ class MAINUI() :
             if force or globalconfig['autoread']:
                 self.reader.read(self.currentread) 
         except:
-            pass
+            print_exc()
     @threader
     def startreader(self,use=None,checked=True):
         try:
@@ -327,8 +327,6 @@ class MAINUI() :
                 return
             elif use=='texthook' or use=='embedded':
                 pass
-            elif use=='ocr':
-                self.textsource=classes[use](self.textgetmethod,self)   
             else:
                 self.textsource=classes[use](self.textgetmethod)
         
@@ -526,14 +524,14 @@ class MAINUI() :
         self.startxiaoxueguan()
         self.starthira()      
         
-        self.settin_ui = Settin(self)  
+        self.settin_ui = Settin(self.translation_ui)  
         
         self.startreader()  
         self.transhis=gui.transhist.transhist(self.translation_ui)  
         self.edittextui=gui.edittext.edittext(self.translation_ui)  
         self.searchwordW=searchwordW(self.translation_ui)
-        self.range_ui = rangeadjust(self)   
-        self.hookselectdialog=gui.selecthook.hookselect(self ,self.settin_ui) 
+        self.range_ui = rangeadjust(self.translation_ui)   
+        self.hookselectdialog=gui.selecthook.hookselect(self.settin_ui) 
         self.AttachProcessDialog=AttachProcessDialog(self.settin_ui,self.selectprocess,self.hookselectdialog)
         self.starttextsource()  
         threading.Thread(target=self.autocheckhwndexists).start()   

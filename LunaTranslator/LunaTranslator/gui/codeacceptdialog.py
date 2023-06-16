@@ -28,8 +28,8 @@ class codeacceptdialog(QDialog):
     def _setcode_c(self,combox:QComboBox, itemsaver_,code='' ):  
                 if combox.currentIndex()==len(nowsuppertcodespy):
                         itemsaver_.setText(code)
-    def __init__(self, object ) -> None:
-        super().__init__(object,Qt.WindowCloseButtonHint) 
+    def __init__(self, parent ) -> None:
+        super().__init__(parent,Qt.WindowCloseButtonHint) 
         title=  '接受的编码' 
         self.setWindowTitle(_TR(title))
         #self.setWindowModality(Qt.ApplicationModal)

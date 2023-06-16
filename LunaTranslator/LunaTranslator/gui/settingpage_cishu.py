@@ -2,7 +2,7 @@ import functools ,os
 from myutils.config import globalconfig   
 from gui.inputdialog import getsomepath1,autoinitdialog 
 from gui.usefulwidget import getcolorbutton,yuitsu_switch,getsimpleswitch
-
+import gobject
 def setTabcishu(self) : 
     self.tabadd_lazy(self.tab_widget, ('辞书设置'), lambda :setTabcishu_l(self)) 
 
@@ -22,11 +22,11 @@ def gethiragrid(self) :
             
             line+=[
                  ((globalconfig['hirasetting'][name]['name']),5),
-                 getsimpleswitch(globalconfig['hirasetting'][name],'use',parent=self,name=name,callback=functools.partial(yuitsu_switch,self,globalconfig['hirasetting'],'hiraswitchs',name,self.object.starthira),pair='hiraswitchs'), 
+                 getsimpleswitch(globalconfig['hirasetting'][name],'use',parent=self,name=name,callback=functools.partial(yuitsu_switch,self,globalconfig['hirasetting'],'hiraswitchs',name,gobject.baseobject.starthira),pair='hiraswitchs'), 
                  
                  ] 
             if 'path' in globalconfig['hirasetting'][name]:
-                 line+=[getcolorbutton(globalconfig,'',callback=functools.partial(getsomepath1,self,globalconfig['hirasetting'][name]['name'],globalconfig['hirasetting'][name], 'path',globalconfig['hirasetting'][name]['name'],self.object.starthira,True),icon='fa.gear',constcolor="#FF69B4")]
+                 line+=[getcolorbutton(globalconfig,'',callback=functools.partial(getsomepath1,self,globalconfig['hirasetting'][name]['name'],globalconfig['hirasetting'][name], 'path',globalconfig['hirasetting'][name]['name'],gobject.baseobject.starthira,True),icon='fa.gear',constcolor="#FF69B4")]
             elif 'token' in globalconfig['hirasetting'][name] and 'token_name' in globalconfig['hirasetting'][name]:
                 items=[{
                         't':'lineedit','l': globalconfig['hirasetting'][name]['token_name'],'d':globalconfig['hirasetting'][name],'k':'token'
@@ -51,7 +51,7 @@ def setTabcishu_l(self) :
         ]+gethiragrid(self)+ [
                 [''],
                 [''],
-                [('开启点击原文查词',5),(getsimpleswitch(globalconfig,'usesearchword'),1),getcolorbutton(globalconfig,'',callback=lambda: self.object.searchwordW.showsignal.emit(),icon='fa.search',constcolor="#FF69B4")],
+                [('开启点击原文查词',5),(getsimpleswitch(globalconfig,'usesearchword'),1),getcolorbutton(globalconfig,'',callback=lambda: gobject.baseobject.searchwordW.showsignal.emit(),icon='fa.search',constcolor="#FF69B4")],
 
                 [''],
                 [('辞书',10)],
@@ -63,9 +63,9 @@ def setTabcishu_l(self) :
                         line=[]
                 line+=([
                         (globalconfig['cishu'][cishu]['name'],5),
-                        getsimpleswitch(globalconfig['cishu'][cishu],'use',callback=functools.partial( self.object.startxiaoxueguan,cishu)),
+                        getsimpleswitch(globalconfig['cishu'][cishu],'use',callback=functools.partial( gobject.baseobject.startxiaoxueguan,cishu)),
                         getcolorbutton(globalconfig,'',
-                                callback= functools.partial(getsomepath1,self,globalconfig['cishu'][cishu]['name'],globalconfig['cishu'][cishu],'path' ,globalconfig['cishu'][cishu]['name'],functools.partial(self.object.startxiaoxueguan,cishu),globalconfig['cishu'][cishu]['isdir'],globalconfig['cishu'][cishu]['filter']) ,icon='fa.gear',constcolor="#FF69B4") 
+                                callback= functools.partial(getsomepath1,self,globalconfig['cishu'][cishu]['name'],globalconfig['cishu'][cishu],'path' ,globalconfig['cishu'][cishu]['name'],functools.partial(gobject.baseobject.startxiaoxueguan,cishu),globalconfig['cishu'][cishu]['isdir'],globalconfig['cishu'][cishu]['filter']) ,icon='fa.gear',constcolor="#FF69B4") 
                                 if 'path' in globalconfig['cishu'][cishu] else '' 
                          
                 ])

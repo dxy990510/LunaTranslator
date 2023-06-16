@@ -190,6 +190,11 @@
                 "icon":"fa.compress",
                 "icon2":"fa.expand"
             },
+            "grabwindow": {
+                "use": true,
+                "tip": "前景窗口截屏",
+                "icon":"fa.camera"
+            },
             "resize": {
                 "use": false,
                 "tip": "调整游戏窗口",

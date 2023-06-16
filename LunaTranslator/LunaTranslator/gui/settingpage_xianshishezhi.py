@@ -11,12 +11,12 @@ from PyQt5.QtWidgets import  QLabel ,QSlider, QFontComboBox  ,QDialog
 from gui.inputdialog import multicolorset
 from myutils.config import globalconfig ,_TR,_TRL  ,magpie10_config
 from myutils.wrapper import Singleton
-import qtawesome
+import qtawesome,gobject
 from myutils.hwnd import showintab
 from gui.inputdialog import getsomepath1
 from gui.usefulwidget import getsimplecombobox,getspinbox,getcolorbutton,getsimpleswitch,selectcolor
 def __changeuibuttonstate(self,x):  
-    self.object.translation_ui.refreshtoolicon()
+    gobject.baseobject.translation_ui.refreshtoolicon()
     self.show_hira_switch .setEnabled(x)
     self.show_fenciswitch .setEnabled(x) 
 def setTabThree_direct(self):
@@ -32,10 +32,9 @@ def setTabThree(self) :
 
 @Singleton
 class dialog_toolbutton(QDialog): 
-    def __init__(self, object ) -> None:
-        super().__init__(object, Qt.WindowCloseButtonHint)
+    def __init__(self, parent ) -> None:
+        super().__init__(parent, Qt.WindowCloseButtonHint)
         self.setWindowTitle(_TR('窗口按钮设置'))
-        self.object=object
         model=QStandardItemModel(   )
         model.setHorizontalHeaderLabels(_TRL(['显示','图标', '说明']))
 
@@ -66,7 +65,7 @@ class dialog_toolbutton(QDialog):
             belong="("+_TR("仅")+' '.join(globalconfig['toolbutton']['buttons'][k]['belong'])+")"
         else:belong=""
         self.model.insertRow(row,[QStandardItem( ),QStandardItem(),QStandardItem( _TR(globalconfig['toolbutton']['buttons'][k]['tip'])+" "+belong ) ])  
-        self.table.setIndexWidget(self.model.index(row, 0),getsimpleswitch(globalconfig['toolbutton']['buttons'][k],'use',callback=lambda _:self.object.object.translation_ui.showhidetoolbuttons()))
+        self.table.setIndexWidget(self.model.index(row, 0),getsimpleswitch(globalconfig['toolbutton']['buttons'][k],'use',callback=lambda _:gobject.baseobject.translation_ui.showhidetoolbuttons()))
         self.table.setIndexWidget(self.model.index(row, 1),getcolorbutton('','',lambda:1,qicon=qtawesome.icon(globalconfig['toolbutton']['buttons'][k]['icon'] ,color=globalconfig['buttoncolor'] ) ))
 def setTabThree_lazy(self) :
       
@@ -110,19 +109,19 @@ def setTabThree_lazy(self) :
         [''],
         [('收到翻译结果时才刷新',4),getsimpleswitch(globalconfig,'refresh_on_get_trans')],
         [''],
-        [('可选取模式(阴影字体下无效)',6),getsimpleswitch(globalconfig,'selectable',callback=lambda x:self.object.translation_ui.translate_text.setselectable() )],
+        [('可选取模式(阴影字体下无效)',6),getsimpleswitch(globalconfig,'selectable',callback=lambda x:gobject.baseobject.translation_ui.translate_text.setselectable() )],
     ]
     def __changefontsize(x):
         self.setstylesheet()
         self.resizefunction()
     def __changeshowintab(x):
-        self.object.translation_ui.showintab=x
-        showintab(self.object.translation_ui.winId(),x)
+        gobject.baseobject.translation_ui.showintab=x
+        showintab(gobject.baseobject.translation_ui.winId(),x)
     uigrid=[
         [('设置界面字体',4),(self.sfont_comboBox,5)],
            [ ('字体大小',4),(getspinbox(1,100,globalconfig  ,'settingfontsize',callback=__changefontsize),2)], 
            [ ('不透明度',4),(self.horizontal_slider,8),(self.horizontal_slider_label,2)], 
-           [('翻译窗口背景颜色',4),getcolorbutton(globalconfig,'backcolor',callback=lambda: selectcolor(self,globalconfig, "backcolor", self.back_color_button),name='back_color_button',parent=self),'',('工具按钮颜色',4),getcolorbutton(globalconfig,'buttoncolor',callback=lambda:selectcolor(self,globalconfig,'buttoncolor',self.buttoncolorbutton,callback=lambda:self.object.translation_ui.refreshtooliconsignal.emit()) ,name='buttoncolorbutton',parent=self),'',('工具按钮大小',4),(getspinbox(5,100,globalconfig  ,'buttonsize',callback=lambda _:self.object.translation_ui.refreshtooliconsignal.emit()),2)],
+           [('翻译窗口背景颜色',4),getcolorbutton(globalconfig,'backcolor',callback=lambda: selectcolor(self,globalconfig, "backcolor", self.back_color_button),name='back_color_button',parent=self),'',('工具按钮颜色',4),getcolorbutton(globalconfig,'buttoncolor',callback=lambda:selectcolor(self,globalconfig,'buttoncolor',self.buttoncolorbutton,callback=lambda:gobject.baseobject.translation_ui.refreshtooliconsignal.emit()) ,name='buttoncolorbutton',parent=self),'',('工具按钮大小',4),(getspinbox(5,100,globalconfig  ,'buttonsize',callback=lambda _:gobject.baseobject.translation_ui.refreshtooliconsignal.emit()),2)],
            [''],
            [('窗口按钮设置',6),getcolorbutton(globalconfig,'',callback=lambda x: dialog_toolbutton(self),icon='fa.gear',constcolor="#FF69B4")],
            [''],
@@ -198,5 +197,5 @@ def changeHorizontal(self) :
     globalconfig['transparent'] = self.horizontal_slider.value() 
     self.horizontal_slider_label.setText("{}%".format(globalconfig['transparent']))
     #  
-    self.object.translation_ui.set_color_transparency()
+    gobject.baseobject.translation_ui.set_color_transparency()
      

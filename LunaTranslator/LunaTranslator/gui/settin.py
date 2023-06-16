@@ -81,15 +81,14 @@ class Settin(closeashidewindow) :
                 grid.setRowMinimumHeight(nowr,35*self.rate)
         self.needfitcols.append([grid,maxl])
     
-    def __init__(self, object): 
-        super(Settin, self).__init__(object.translation_ui,globalconfig,'setting_geo_2') 
+    def __init__(self, parent): 
+        super(Settin, self).__init__(parent,globalconfig,'setting_geo_2') 
         #self.setWindowFlag(Qt.Tool,False)
         #self.setWindowFlags(self.windowFlags()&~Qt.WindowMinimizeButtonHint)
         self.mp3player=wavmp3player() 
         self.localocrstarted=False
         self.mp3playsignal.connect(self.mp3player.mp3playfunction)  
         self.opensolvetextsig.connect(self.opensolvetextfun)
-        self.object = object   
         self.needfitwidgets=[]
         self.needfitcols=[]
         self.setMinimumSize(100,100)

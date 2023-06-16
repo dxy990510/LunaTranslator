@@ -543,7 +543,6 @@ FILE_MAP_READ=0x4
 _OpenFileMappingW=_kernel32.OpenFileMappingW
 _OpenFileMappingW.argtypes=c_uint,c_bool,c_wchar_p
 def OpenFileMapping(access,inherit,name):
-    # Open the named file mapping object
     map_handle = _OpenFileMappingW(
         access,
         inherit,

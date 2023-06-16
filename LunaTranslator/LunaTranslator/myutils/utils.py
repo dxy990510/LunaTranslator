@@ -8,7 +8,7 @@ import socket,functools
 import ctypes
 import time
 import ctypes.wintypes
-import win32con
+import win32con,gobject
 from traceback import print_exc
 from myutils.config import globalconfig,static_data,savehook_new_list,savehook_new_data,getdefaultsavehook,translatorsetting
 import win32utils,threading,queue
@@ -273,9 +273,9 @@ def minmaxmoveobservefunc(self):
         )
         def win_event_callback(hWinEventHook, event, hwnd, idObject, idChild, dwEventThread, dwmsEventTime):
             try:
-                if self.object.textsource is None:
+                if gobject.baseobject.textsource is None:
                     return 
-                if self.object.textsource.hwnd==0: 
+                if gobject.baseobject.textsource.hwnd==0: 
                     return
                 
                 _focusp=win32utils.GetWindowThreadProcessId(hwnd)
@@ -283,18 +283,18 @@ def minmaxmoveobservefunc(self):
                     if globalconfig['focusfollow']: 
                         if _focusp ==os.getpid():
                             pass 
-                        elif _focusp in self.object.textsource.pids: 
+                        elif _focusp in gobject.baseobject.textsource.pids: 
                             self.hookfollowsignal.emit(3,(hwnd,))
                         else:
                             self.hookfollowsignal.emit(4,(0,0)) 
                     if globalconfig['keepontop'] and globalconfig['focusnotop']:  
                         if _focusp ==os.getpid():
                             pass
-                        elif _focusp in self.object.textsource.pids: 
-                            self.object.translation_ui.settop()
+                        elif _focusp in gobject.baseobject.textsource.pids: 
+                            gobject.baseobject.translation_ui.settop()
                         else:
-                            self.object.translation_ui.canceltop()
-                if _focusp!= win32utils.GetWindowThreadProcessId(self.object.textsource.hwnd ) :
+                            gobject.baseobject.translation_ui.canceltop()
+                if _focusp!= win32utils.GetWindowThreadProcessId(gobject.baseobject.textsource.hwnd ) :
                     return
                  
                 rect=win32utils.GetWindowRect( hwnd) 

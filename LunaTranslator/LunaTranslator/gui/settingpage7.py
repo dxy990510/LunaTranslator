@@ -6,7 +6,7 @@ from PyQt5.QtCore import QSize,Qt
 from PyQt5.QtGui import QStandardItem, QStandardItemModel 
 from traceback import print_exc
 from myutils.config import globalconfig ,postprocessconfig,noundictconfig,transerrorfixdictconfig,_TR,_TRL,defaultglobalconfig 
-import functools 
+import functools ,gobject
 from gui.usefulwidget import getcolorbutton,getsimpleswitch
 from gui.codeacceptdialog import codeacceptdialog  
 from gui.inputdialog import getsomepath1   
@@ -103,8 +103,8 @@ def setTab7_lazy(self) :
                 getsimpleswitch(transerrorfixdictconfig,'use'),
                 self.button_fix],
             [(('使用VNR共享辞书' ),6),
-                getsimpleswitch(globalconfig['gongxiangcishu'],'use',callback = self.object.loadvnrshareddict ),
-                getcolorbutton(globalconfig,'',callback=lambda x:  getsomepath1(self,'共享辞书',globalconfig['gongxiangcishu'],'path','共享辞书',self.object.loadvnrshareddict,False,'*.xml') ,icon='fa.gear',constcolor="#FF69B4"),'','','','','',''],
+                getsimpleswitch(globalconfig['gongxiangcishu'],'use',callback = gobject.baseobject.loadvnrshareddict ),
+                getcolorbutton(globalconfig,'',callback=lambda x:  getsomepath1(self,'共享辞书',globalconfig['gongxiangcishu'],'path','共享辞书',gobject.baseobject.loadvnrshareddict,False,'*.xml') ,icon='fa.gear',constcolor="#FF69B4"),'','','','','',''],
             
         ]   
          
@@ -117,8 +117,8 @@ def setTab7_lazy(self) :
 
 @Singleton
 class noundictconfigdialog1(QDialog):
-    def __init__(dialog,object,configdict,title,label=[  '日文','翻译'] ,_=None) -> None:
-        super().__init__(object,Qt.WindowCloseButtonHint)
+    def __init__(dialog,parent,configdict,title,label=[  '日文','翻译'] ,_=None) -> None:
+        super().__init__(parent,Qt.WindowCloseButtonHint)
             
         dialog.setWindowTitle(_TR(title))
         #dialog.setWindowModality(Qt.ApplicationModal)
@@ -195,8 +195,8 @@ class noundictconfigdialog1(QDialog):
         dialog.show()
 @Singleton
 class noundictconfigdialog(QDialog):
-    def __init__(dialog,object,configdict,title,label=['游戏ID MD5' ,'日文','翻译'] ,_=None) -> None:
-        super().__init__(object,Qt.WindowCloseButtonHint)
+    def __init__(dialog,parent,configdict,title,label=['游戏ID MD5' ,'日文','翻译'] ,_=None) -> None:
+        super().__init__(parent,Qt.WindowCloseButtonHint)
         
         dialog.setWindowTitle(_TR(title))
         #dialog.setWindowModality(Qt.ApplicationModal)
@@ -225,7 +225,7 @@ class noundictconfigdialog(QDialog):
         button.setText(_TR('添加行'))
         def clicked1(): 
             try:
-                md5=object.object.textsource.md5
+                md5=gobject.baseobject.textsource.md5
                 model.insertRow(0,[QStandardItem(md5),QStandardItem(''),QStandardItem('')]) 
             except:
                 print_exc()
@@ -285,10 +285,10 @@ class noundictconfigdialog(QDialog):
         formLayout.addWidget(button5) 
         setmd5layout=QHBoxLayout()
         setmd5layout.addWidget(QLabel(_TR("当前MD5")))
-        md5content=QLineEdit( object.object.currentmd5)
+        md5content=QLineEdit( gobject.baseobject.currentmd5)
         setmd5layout.addWidget(md5content)
         button5=QPushButton()
-        button5.clicked.connect(lambda x:object.object.__setitem__('currentmd5',md5content.text()))
+        button5.clicked.connect(lambda x:gobject.baseobject.__setitem__('currentmd5',md5content.text()))
         button5.setText(_TR('修改'))
         setmd5layout.addWidget(button5)
         
@@ -297,8 +297,8 @@ class noundictconfigdialog(QDialog):
         dialog.show()
 @Singleton
 class postconfigdialog(QDialog):
-    def __init__(dialog, object,configdict,title,_=None) -> None:
-        super().__init__(object,Qt.WindowCloseButtonHint)
+    def __init__(dialog, parent,configdict,title,_=None) -> None:
+        super().__init__(parent,Qt.WindowCloseButtonHint)
     
         dialog.setWindowTitle(_TR(title))
         #dialog.setWindowModality(Qt.ApplicationModal)

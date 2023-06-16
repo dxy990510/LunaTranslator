@@ -18,8 +18,9 @@ from PyQt5.QtGui import QStandardItem, QStandardItemModel
 from PyQt5.QtCore import Qt,QSize  
 from myutils.config import   savehook_new_list,savehook_new_data
 from myutils.hwnd import getExeIcon  
+import gobject
 from myutils.config import _TR,_TRL,globalconfig,static_data 
-import winsharedutils
+import winsharedutils,win32con
 from myutils.wrapper import Singleton_close,Singleton,threader
 from myutils.utils import checkifnewgame 
 from gui.usefulwidget import yuitsu_switch
@@ -285,14 +286,11 @@ class dialog_setting_game(QDialog):
                         self.lujing.setText(res)
                         self.exepath=res 
                 
-        def __init__(self, parent,exepath, item=None,settingui=None,type=1,gametitleitme=None) -> None:
+        def __init__(self, parent,exepath, item=None,type=1,gametitleitme=None) -> None:
                 super().__init__(parent, Qt.WindowCloseButtonHint )
                 checkifnewgame(exepath)
                 formLayout = QVBoxLayout(self)  # 配置layout
-                if settingui:
-                        self.object=settingui
-                else:
-                        self.object=parent.object 
+                 
                 self.item=item 
                 self.exepath=exepath 
                 self.gametitleitme=gametitleitme
@@ -389,7 +387,7 @@ class dialog_setting_game(QDialog):
 
                 cp_layout=QHBoxLayout()
                 cp_layout.addWidget(QLabel(_TR('代码页')))
-                cp_layout.addWidget(getsimplecombobox(_TRL(static_data['codepage_display']),savehook_new_data[exepath],'codepage_index' ,lambda x: self.object.object.textsource.setcodepage()))
+                cp_layout.addWidget(getsimplecombobox(_TRL(static_data['codepage_display']),savehook_new_data[exepath],'codepage_index' ,lambda x: gobject.baseobject.textsource.setcodepage()))
                 formLayout.addLayout(cp_layout)
 
                 cp_layout=QHBoxLayout()
@@ -476,7 +474,7 @@ class dialog_statistic(QDialog):
                 self.show()
                 threading.Thread(target=self.refresh).start()
                 
-def startgame(game,settingui):
+def startgame(game):
     try:         
         if os.path.exists(game):
             mode=savehook_new_data[game]['onloadautochangemode']
@@ -492,8 +490,8 @@ def startgame(game,settingui):
                     if globalconfig['sourcestatus'][_[mode]]['use']==False:
                             globalconfig['sourcestatus'][_[mode]]['use']=True
                             
-                            yuitsu_switch(settingui,globalconfig['sourcestatus'],'sourceswitchs',_[mode],None ,True) 
-                            settingui.object.starttextsource(use=_[mode],checked=True)
+                            yuitsu_switch(gobject.baseobject.settin_ui,globalconfig['sourcestatus'],'sourceswitchs',_[mode],None ,True) 
+                            gobject.baseobject.starttextsource(use=_[mode],checked=True)
      
             if savehook_new_data[game]['leuse'] :
                     localeswitcher=savehook_new_data[game]['localeswitcher'] 
@@ -520,7 +518,7 @@ class dialog_savedgame_new(QDialog):
                         idx =savehook_new_list.index(game)
                         savehook_new_list.insert(0,savehook_new_list.pop(idx)) 
                         self.close() 
-                        startgame(game,self.object)
+                        startgame(game)
                 
         def clicked2(self): 
                 try: 
@@ -551,11 +549,10 @@ class dialog_savedgame_new(QDialog):
         def top1focus(self): 
                 if len(savehook_new_list): 
                       self.flow.l._item_list[0].widget().setFocus()
-        def __init__(self, object ) -> None:
-                super().__init__(object , Qt.WindowMinMaxButtonsHint|Qt.WindowCloseButtonHint)
+        def __init__(self, parent ) -> None:
+                super().__init__(parent , Qt.WindowMinMaxButtonsHint|Qt.WindowCloseButtonHint)
                 self.setWindowTitle(_TR('已保存游戏'))
                 
-                self.object=object
                 formLayout = QVBoxLayout(self)  # 
                 self.flow=ScrollFlow()
                 
@@ -669,7 +666,7 @@ class dialog_savedgame(QDialog):
                 if os.path.exists(self.model.item(self.table.currentIndex().row(),2).savetext):
                         savehook_new_list.insert(0,savehook_new_list.pop(self.table.currentIndex().row())) 
                         self.close() 
-                        startgame(self.model.item(self.table.currentIndex().row(),2).savetext ,self.object)
+                        startgame(self.model.item(self.table.currentIndex().row(),2).savetext)
                  
         
         def newline(self,row,k): 
@@ -682,13 +679,12 @@ class dialog_savedgame(QDialog):
                 self.table.setIndexWidget(self.model.index(row, 1),getcolorbutton('','',functools.partial( opendir,k),qicon=getExeIcon(k) ))
                 
                 self.table.setIndexWidget(self.model.index(row, 2),getcolorbutton('','',functools.partial(self.showsettingdialog,k,keyitem ),icon='fa.gear',constcolor="#FF69B4")) 
-        def __init__(self, object ) -> None:
+        def __init__(self, parent ) -> None:
                 # if dialog_savedgame._sigleton :
                 #         return
                 # dialog_savedgame._sigleton=True 
-                super().__init__(object, Qt.WindowCloseButtonHint)
-                self.setWindowTitle(_TR('已保存游戏'))
-                self.object=object
+                super().__init__(parent, Qt.WindowCloseButtonHint)
+                self.setWindowTitle(_TR('已保存游戏')) 
                 formLayout = QVBoxLayout(self)  # 
                 model=QStandardItemModel(   )
                 model.setHorizontalHeaderLabels(_TRL(['转区','','设置', '游戏']))#,'HOOK'])

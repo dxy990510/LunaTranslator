@@ -9,8 +9,8 @@ from myutils.utils import makehtml
 from myutils.wrapper import Singleton
 @Singleton
 class autoinitdialog(QDialog):
-    def __init__(dialog, object,title,width,lines,_=None  ) -> None:
-        super().__init__(object,  Qt.WindowCloseButtonHint)
+    def __init__(dialog, parent,title,width,lines,_=None  ) -> None:
+        super().__init__(parent,  Qt.WindowCloseButtonHint)
     
         dialog.setWindowTitle(_TR(title))
         dialog.resize(QSize(width,10))
@@ -74,7 +74,7 @@ class autoinitdialog(QDialog):
             elif line['t']=='switch':
                 dd=line['d']
                 key=line['k'] 
-                switch=MySwitch(object.rate,sign=dd[key])
+                switch=MySwitch(parent.rate,sign=dd[key])
                 regist.append([dd,key,switch.isChecked])  
                 formLayout.addRow((_TR(line['l'])),switch)
             elif line['t']=='spin':
@@ -101,8 +101,8 @@ class autoinitdialog(QDialog):
                 formLayout.addRow(_TR(line['l']),spin)  
         dialog.show()
  
-def getsomepath1(object,title,d,k,label,callback=None,isdir=False,filter1="*.db"):
-    autoinitdialog(object,title,900,[ 
+def getsomepath1(parent,title,d,k,label,callback=None,isdir=False,filter1="*.db"):
+    autoinitdialog(parent,title,900,[ 
                                 {'t':'file','l':label,'d':d,'k':k,'dir':isdir,'filter':filter1}, 
                                 {'t':'okcancel','callback':callback},
                                 ])

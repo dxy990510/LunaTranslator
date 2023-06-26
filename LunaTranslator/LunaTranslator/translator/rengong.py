@@ -24,15 +24,18 @@ class TS(basetrans):
                 if dis<mindis:
                     mindis=dis
                     if mindis<globalconfig['premtsimi']: 
-                        if self.json[jc]['userTrans'] and self.json[jc]['userTrans']!='':
+                        if type(self.json[jc])==str:
+                            savet=self.json[jc]
+                        elif self.json[jc]['userTrans'] and self.json[jc]['userTrans']!='':
                             savet=self.json[jc]['userTrans']
                         
                         elif self.json[jc]['machineTrans'] and self.json[jc]['machineTrans']!='':
                             savet= self.json[jc]['machineTrans']
             return savet
         else:
-        
-            if self.json[content]['userTrans'] and self.json[content]['userTrans']!='':
+            if type(self.json[jc])==str:
+                return self.json[jc]
+            elif self.json[content]['userTrans'] and self.json[content]['userTrans']!='':
                 return self.json[content]['userTrans']
             
             elif self.json[content]['machineTrans'] and self.json[content]['machineTrans']!='':
